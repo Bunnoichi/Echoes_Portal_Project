@@ -1,7 +1,6 @@
-<!DOCTYPE html>
-<html>
-<head><title>ユーザー登録</title></head>
-<body>
+{% extends 'base/echoes_base.html' %}
+{% block body %}
+
   <h2>ユーザー登録</h2>
   <form method="post">
     {% csrf_token %}
@@ -10,5 +9,5 @@
   </form>
 
   <p>すでにアカウントをお持ちですか？ <a href="{% url 'login' %}">ログインはこちら</a></p>
-</body>
-</html>
+
+{% endblock %}

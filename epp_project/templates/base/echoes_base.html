@@ -17,10 +17,13 @@
    </head>
    <body>
       <a href="{% url 'website_app:index' %}">トップページ</a>
-      <a href="{% url 'website_app:team_initial_reg' %}">初期登録する</a>
-      <a href="{% url 'website_app:team_list' %}">一覧表示</a>
-      <a href="{% url 'website_app:report_reg' %}">報告</a>
-      <a href="{% url 'website_app:report_list' %}">報告一覧</a>
+      <a href="{% url 'accounts:login' %}">ログイン</a>
+      {% if user.is_authenticated %}
+         {{ user.username }} さん、こんにちは！
+      {% else %}
+         ゲストさん、こんにちは！
+      {% endif %}
+      
       {% block body %}
       {% endblock %}
 

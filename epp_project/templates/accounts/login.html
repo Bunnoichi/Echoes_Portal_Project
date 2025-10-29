@@ -1,12 +1,5 @@
-<!DOCTYPE html>
-<html>
-<head><title>ログイン</title></head>
-<body>
-{% if user.is_authenticated %}
-  {{ user.username }} さん、こんにちは！
-{% else %}
-  ゲストさん、こんにちは！
-{% endif %}
+{% extends 'base/echoes_base.html' %}
+{% block body %}
 
   <h2>ログイン</h2>
   <form method="post">
@@ -15,10 +8,15 @@
     <button type="submit">ログイン</button>
   </form>
 
-  <p>アカウントをお持ちでない方は <a href="{% url 'signup' %}">新規登録</a></p>
+{% if user.is_authenticated %}
+{{ user.username }} さん、こんにちは！
+{% else %}
+ゲストさん、こんにちは！
+{% endif %}
+  <p>アカウントをお持ちでない方は <a href="{% url 'accounts:signup' %}">新規登録</a></p>
 
-   <form method="POST" action="{% url 'logout' %}">
+   <form method="POST" action="{% url 'accounts:logout' %}">
   {% csrf_token %}
   <button type="submit">ログアウト</button>
-</body>
-</html>
+
+{% endblock %}

@@ -1,7 +1,11 @@
 {% extends 'base/echoes_base.html' %}
 {% block body %}
 
-<h2>hello</h2>
+<h2>トップページ</h2>
+<a href="{% url 'website_app:team_initial_reg' %}">初期登録する</a>
+<a href="{% url 'website_app:team_list' %}">一覧表示</a>
+<a href="{% url 'website_app:report_reg' %}">報告</a>
+<a href="{% url 'website_app:report_list' %}">報告一覧</a>
 <p>{{ datetime_now }}</p>
 
 

@@ -8,7 +8,7 @@ class SignUpView(CreateView):
     model = CustomUser
     form_class = SignUpForm
     template_name = 'accounts/signup.html'
-    success_url = reverse_lazy('login')
+    success_url = reverse_lazy('accounts:login')
 
 
 class CustomLoginView(LoginView):
@@ -17,4 +17,4 @@ class CustomLoginView(LoginView):
 
 
 class CustomLogoutView(LogoutView):
-    next_page = reverse_lazy('login')
+    next_page = reverse_lazy('accounts:login')
