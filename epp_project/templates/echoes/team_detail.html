@@ -1,0 +1,50 @@
+{% extends 'base/echoes_base.html' %}
+{% block body %}
+
+<h2>出演団体の詳細</h2>
+<div class="team_detail_box">
+   <div class="detail_label">団体名</div>
+   <div class="detail_conte">{{ team.team_name }}</div>
+</div>
+
+<div class="team_detail_box">
+   <div class="detail_label">説明</div>
+   <div class="detail_conte">{{ team.team_desc }}</div>
+</div>
+<div class="team_detail_box">
+   <div class="detail_label">出演定刻</div>
+   <div class="detail_conte">{{ team.onstage_time }}</div>
+</div>
+<div class="team_detail_box">
+   <div class="detail_label">受付定刻</div>
+   <div class="detail_conte">{{ team.checkin_pretime_1 }}</div>
+</div>
+<div class="team_detail_box">
+   <div class="detail_label">受付打刻</div>
+   <div class="detail_conte">{{ team.checkin_postime_1 }}</div>
+</div>
+<div class="team_detail_box">
+   <div class="detail_label">受付担当者</div>
+   <div class="detail_conte">{{ team.checkin_charge_1 }}</div>
+</div>
+{% if team.file_stage %}
+   <div class="team_detail_box">
+      <div class="detail_label">添付ファイル</div>
+      <div class="detail_conte">
+         <a href= "{{ team.file_stage.url }}">{{ team.file_stage }}</a>
+      </div>
+   </div>
+{% endif %}
+
+<div class="team_detail_box meta">
+   <div class="detail_label">ID</div>
+   <div class="detail_conte">{{ team.id }}</div>
+</div><div class="team_detail_box  meta">
+   <div class="detail_label">作成日時</div>
+   <div class="detail_conte">{{ team.created_at }}</div>
+</div><div class="team_detail_box meta">
+   <div class="detail_label">更新日時</div>
+   <div class="detail_conte">{{ team.updated_at }}</div>
+</div>
+
+{% endblock %}

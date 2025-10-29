@@ -1,0 +1,71 @@
+{% extends 'base/echoes_base.html' %}
+{% block body %}
+
+<h2>出演団体登録修正</h2>
+<form method="POST">
+   {% csrf_token %}
+   
+   <div class="qBox" id="team_name" hidden>
+      {{ form.team_name.errors }}
+      {{ form.team_name.label_tag }}
+      {{ form.team_name }}
+   </div>
+
+   <div class="qBox" id="team_desc" hidden>
+      {{ form.team_desc.errors }}
+      {{ form.team_desc.label_tag }}
+      {{ form.team_desc }}
+   </div>
+
+   <div class="qBox" id="onstage_time" hidden>
+      {{ form.onstage_time.errors }}
+      {{ form.onstage_time.label_tag }}
+      {{ form.onstage_time }}
+   </div>
+
+   <div class="qBox" id="checkin_pretime_1" hidden>
+      {{ form.checkin_pretime_1.errors }}
+      {{ form.checkin_pretime_1.label_tag }}
+      {{ form.checkin_pretime_1 }}
+   </div>
+
+   <div class="qBox" id="checkin_postime_1">
+      {{ form.checkin_postime_1.errors }}
+      {{ form.checkin_postime_1.label_tag }}
+      {{ form.checkin_postime_1 }}
+      <button type="button" id="checkin_postime_1_button">打刻</button>
+   </div>
+
+   <div class="qBox" id="checkin_charge_1">
+      {{ form.checkin_charge_1.errors }}
+      {{ form.checkin_charge_1.label_tag }}
+      {{ form.checkin_charge_1 }}
+   </div>
+
+   <!-- {{ form.as_p }} -->
+
+   <input type="submit" value="Submit">
+</form>
+
+<script>
+   let button = document.getElementById("checkin_postime_1_button");
+
+   button.addEventListener('click', function() {
+      var mydiv = document.getElementById("id_checkin_postime_1");
+      mydiv.value = formatDate(new Date());
+
+   }, false);
+
+   function formatDate(dt) {
+      var y = dt.getFullYear();
+      var m = ('00' + (dt.getMonth()+1)).slice(-2);
+      var d = ('00' + dt.getDate()).slice(-2);
+
+      var H = ('00' + (dt.getHours())).slice(-2);
+      var M = ('00' + (dt.getMinutes())).slice(-2);
+      var S = ('00' + (dt.getSeconds())).slice(-2);
+
+      return (y + '-' + m + '-' + d + ' ' + H + ':' + M + ':' + S);
+   }
+</script>
+{% endblock %}

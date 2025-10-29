@@ -1,0 +1,28 @@
+{% extends 'base/echoes_base.html' %}
+{% block body %}
+
+<h2>報告サイト</h2>
+<form method="POST" enctype="multipart/form-data">
+   {% csrf_token %}
+   
+   <div class="qBox" id="repo_plac">
+      {{ form.repo_plac.errors }}
+      {{ form.repo_plac.label_tag }}
+      {{ form.repo_plac }}
+   </div>
+
+   <div class="qBox" id="repo_cont">
+      {{ form.repo_cont.errors }}
+      {{ form.repo_cont.label_tag }}
+      {{ form.repo_cont }}
+   </div>
+
+   <div class="qBox" id="repo_pter">
+      {{ form.repo_pter.errors }}
+      {{ form.repo_pter.label_tag }}
+      {{ form.repo_pter }}
+   </div>
+
+   <input type="submit" value="Submit">
+</form>
+{% endblock %}
