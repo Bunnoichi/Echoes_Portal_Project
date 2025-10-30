@@ -1,0 +1,52 @@
+{% extends 'base/echoes_base.html' %}
+{% block body %}
+
+<h2>出演団体の情報修正</h2>
+<form method="POST" enctype="multipart/form-data">
+   {% csrf_token %}
+   
+   <div class="qBox" id="team_name">
+      {{ form.team_name.errors }}
+      {{ form.team_name.label_tag }}
+      {{ form.team_name }}
+   </div>
+
+   <div class="qBox" id="team_desc">
+      {{ form.team_desc.errors }}
+      {{ form.team_desc.label_tag }}
+      {{ form.team_desc }}
+   </div>
+
+   <div class="qBox" id="onstage_time">
+      {{ form.onstage_time.errors }}
+      {{ form.onstage_time.label_tag }}
+      {{ form.onstage_time }}
+   </div>
+
+   <div class="qBox" id="checkin_pretime_1">
+      {{ form.checkin_pretime_1.errors }}
+      {{ form.checkin_pretime_1.label_tag }}
+      {{ form.checkin_pretime_1 }}
+   </div>
+   
+   <div class="qBox" id="checkin_postime_1">
+      {{ form.checkin_postime_1.errors }}
+      {{ form.checkin_postime_1.label_tag }}
+      {{ form.checkin_postime_1 }}
+   </div>
+
+   <div class="qBox" id="checkin_charge_1">
+      {{ form.checkin_charge_1.errors }}
+      {{ form.checkin_charge_1.label_tag }}
+      {{ form.checkin_charge_1 }}
+   </div>
+
+   <div class="qBox" id="file_stage">
+      {{ form.file_stage.errors }}
+      {{ form.file_stage.label_tag }}
+      {{ form.file_stage }}
+   </div>
+
+   <input type="submit" value="Submit">
+</form>
+{% endblock %}

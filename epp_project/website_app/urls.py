@@ -8,6 +8,7 @@ urlpatterns = [
    path('team/list/', views.team_list, name='team_list'),
    path('team/<uuid:id>/checkin', views.team_checkin, name='team_checkin'),
    path('team/<uuid:id>/detail', views.team_detail, name='team_detail'),
+   path('team/<uuid:id>/update', views.team_update, name='team_update'),
    path('report/report', views.report_reg, name='report_reg'),
    path('report/list', views.report_list, name='report_list'),
 ]

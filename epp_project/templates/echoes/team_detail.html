@@ -47,4 +47,6 @@
    <div class="detail_conte">{{ team.updated_at }}</div>
 </div>
 
+<td><a href="{% url 'website_app:team_update' team.id %}" class="card-link">情報修正</a></td>
+
 {% endblock %}

@@ -51,6 +51,20 @@ class TeamDetailView(LoginRequiredMixin, View):
     team = get_object_or_404(Team, id=id)
     return render(request, 'echoes/team_detail.html', {'team': team})
   
+class TeamUpdateView(LoginRequiredMixin, View):
+  login_url = 'accounts:login'
+  redirect_field_name = 'next'
+  def get(self, request, id):
+      form = TeamForm(instance=get_object_or_404(Team, id=id))
+      return render(request, 'echoes/team_update.html', {'form': form})
+
+  def post(self, request, id):
+      form = TeamForm(request.POST, request.FILES, instance=get_object_or_404(Team, id=id))
+      if form.is_valid():
+        form.save()
+        return redirect('website_app:team_list')
+      return render(request, 'echoes/team_update.html', {'form': form})
+  
 class ReportCreateView(View):
     def get(self, request):
         form = ReportForm()
@@ -73,6 +87,7 @@ class ReportListView(LoginRequiredMixin, View):
 index = IndexView.as_view()
 team_initial_reg = TeamCreateView.as_view()
 team_list = TeamListView.as_view()
+team_update = TeamUpdateView.as_view()
 team_checkin = TeamCheckinView.as_view()
 team_detail = TeamDetailView.as_view()
 report_reg = ReportCreateView.as_view()
