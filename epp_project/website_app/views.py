@@ -1,15 +1,35 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
-from datetime import datetime
 from .forms import TeamForm, ReportForm
 from .models import Team, Report
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.utils import timezone
 
 class IndexView(View):
-   def get(self, request):
-         datetime_now = datetime.now()
-         return render(request, 'echoes/index.html',
-                       {'datetime_now': datetime_now})
+  def get(self, request):
+    timezone_now = timezone.now()
+
+    # --- ORMを使ってデータ取得 ---
+    # 現在より前のイベント（過去）を時刻が近い順に1件取得
+    previous_event = (
+        Team.objects.filter(onstage_time__lt=timezone_now)  # 現在より前
+        .order_by('-onstage_time')                  # 時刻が近いもの（降順）
+        .first()                                    # 最初の1件だけ
+    )
+    # 現在より後のイベント（未来）を時刻が近い順に1件取得
+    next_event = (
+        Team.objects.filter(onstage_time__gte=timezone_now) # 現在以降
+        .order_by('onstage_time')                   # 時刻が近いもの（昇順）
+        .first()
+    )
+
+    context = {
+        'previous_event': previous_event,
+        'next_event': next_event,
+        'now': timezone_now,
+    }
+    
+    return render(request, 'echoes/index.html', context)
    
 class TeamCreateView(LoginRequiredMixin, View):
   login_url = 'accounts:login'
