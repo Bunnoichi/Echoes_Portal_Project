@@ -35,11 +35,11 @@ class TeamCreateView(LoginRequiredMixin, View):
   login_url = 'accounts:login'
   redirect_field_name = 'next'
   def get(self, request):
-      form = TeamForm()
+      form = TeamForm(initial_field=True)
       return render(request, 'echoes/team_initial_reg.html', {'form': form})
 
   def post(self, request):
-      form = TeamForm(request.POST, request.FILES)
+      form = TeamForm(request.POST, request.FILES,initial_field=True)
       if form.is_valid():
         form.save()
         return redirect('website_app:index')
@@ -54,11 +54,11 @@ class TeamCheckinView(LoginRequiredMixin, View):
   login_url = 'accounts:login'
   redirect_field_name = 'next'
   def get(self, request, id):
-      form = TeamForm(instance=get_object_or_404(Team, id=id))
+      form = TeamForm(instance=get_object_or_404(Team, id=id), initial_field=False)
       return render(request, 'echoes/team_checkin.html', {'form': form})
   
   def post(self, request, id):
-      form = TeamForm(request.POST, instance=get_object_or_404(Team, id=id))
+      form = TeamForm(request.POST, instance=get_object_or_404(Team, id=id), initial_field=False)
       if form.is_valid():
         form.save()
         return redirect('website_app:team_list')
@@ -75,11 +75,11 @@ class TeamUpdateView(LoginRequiredMixin, View):
   login_url = 'accounts:login'
   redirect_field_name = 'next'
   def get(self, request, id):
-      form = TeamForm(instance=get_object_or_404(Team, id=id))
+      form = TeamForm(instance=get_object_or_404(Team, id=id), initial_field=False)
       return render(request, 'echoes/team_update.html', {'form': form})
 
   def post(self, request, id):
-      form = TeamForm(request.POST, request.FILES, instance=get_object_or_404(Team, id=id))
+      form = TeamForm(request.POST, request.FILES, instance=get_object_or_404(Team, id=id), initial_field=False)
       if form.is_valid():
         form.save()
         return redirect('website_app:team_list')
