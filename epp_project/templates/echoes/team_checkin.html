@@ -4,56 +4,40 @@
 <h2>出演団体登録修正</h2>
 <form method="POST">
    {% csrf_token %}
-   
-   <div class="qBox" id="team_name" hidden>
-      {{ form.team_name.errors }}
-      {{ form.team_name.label_tag }}
-      {{ form.team_name }}
-   </div>
 
-   <div class="qBox" id="team_desc" hidden>
-      {{ form.team_desc.errors }}
-      {{ form.team_desc.label_tag }}
-      {{ form.team_desc }}
-   </div>
-
-   <div class="qBox" id="onstage_time" hidden>
-      {{ form.onstage_time.errors }}
-      {{ form.onstage_time.label_tag }}
-      {{ form.onstage_time }}
-   </div>
-
-   <div class="qBox" id="checkin_pretime_1" hidden>
-      {{ form.checkin_pretime_1.errors }}
-      {{ form.checkin_pretime_1.label_tag }}
-      {{ form.checkin_pretime_1 }}
-   </div>
-
-   <div class="qBox" id="checkin_postime_1">
-      {{ form.checkin_postime_1.errors }}
-      {{ form.checkin_postime_1.label_tag }}
-      {{ form.checkin_postime_1 }}
-      <button type="button" id="checkin_postime_1_button">打刻</button>
-   </div>
-
-   <div class="qBox" id="checkin_charge_1">
-      {{ form.checkin_charge_1.errors }}
-      {{ form.checkin_charge_1.label_tag }}
-      {{ form.checkin_charge_1 }}
-   </div>
-
-   <!-- {{ form.as_p }} -->
+   {% for field in form %}
+      {% if field.name in wanted_field %}
+         <div class="fieldWrapper" id="form_{{ field.name }}">
+            {{ field.errors }}
+            {{ field.label_tag }} {{ field }}
+            <button type="button" id="button_{{ field.name }}">打刻</button>
+         </div>
+      {% else %}
+         <div class="fieldWrapper" id="form_{{ field.name }}" hidden>
+            {{ field }}
+         </div>
+      {% endif %}
+   {% endfor %}
 
    <input type="submit" value="Submit">
 </form>
 
 <script>
-   let button = document.getElementById("checkin_postime_1_button");
+   let btn1 = document.getElementById("button_onstage_time_acc");
+   let btn2 = document.getElementById("button_checkin_postime_1");
+   let btn3 = document.getElementById("button_checkin_postime_2");
 
-   button.addEventListener('click', function() {
+   btn1.addEventListener('click', function() {
+      var mydiv = document.getElementById("id_onstage_time_acc");
+      mydiv.value = formatDate(new Date());
+   }, false);
+   btn2.addEventListener('click', function() {
       var mydiv = document.getElementById("id_checkin_postime_1");
       mydiv.value = formatDate(new Date());
-
+   }, false);
+   btn3.addEventListener('click', function() {
+      var mydiv = document.getElementById("id_checkin_postime_2");
+      mydiv.value = formatDate(new Date());
    }, false);
 
    function formatDate(dt) {

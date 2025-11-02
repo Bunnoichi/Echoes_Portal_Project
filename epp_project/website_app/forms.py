@@ -19,11 +19,6 @@ class TeamForm(ModelForm):
             for name in remove_fields:
                self.fields.pop(name, None)
          
-         case 'checkin':
-            remove_fields =['team_name', 'team_desc', 'onstage_time','checkin_pretime_1', 'checkin_pretime_2', 'file_form', 'file_stage']
-            for name in remove_fields:
-               self.fields.pop(name, None)
-         
 class ReportForm(ModelForm):
    class Meta:
       model = Report

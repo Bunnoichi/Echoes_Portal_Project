@@ -54,8 +54,9 @@ class TeamCheckinView(LoginRequiredMixin, View):
   login_url = 'accounts:login'
   redirect_field_name = 'next'
   def get(self, request, id):
-      form = TeamForm(instance=get_object_or_404(Team, id=id), view_type='checkin')
-      return render(request, 'echoes/team_checkin.html', {'form': form})
+      wanted_field = ['onstage_time_acc', 'checkin_postime_1', 'checkin_charge_1', 'checkin_postime_2', 'checkin_charge_2']
+      form = TeamForm(instance=get_object_or_404(Team, id=id), view_type='default')
+      return render(request, 'echoes/team_checkin.html', {'form': form, 'wanted_field':wanted_field})
   
   def post(self, request, id):
       form = TeamForm(request.POST, instance=get_object_or_404(Team, id=id))
