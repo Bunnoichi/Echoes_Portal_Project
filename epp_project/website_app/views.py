@@ -11,26 +11,67 @@ class IndexView(View):
 
     # --- ORMを使ってデータ取得 ---
     # 現在より前のイベント（過去）を時刻が近い順に1件取得
-    previous_event = (
+    onstage_now = (
         Team.objects.filter(onstage_time__lt=timezone_now)  # 現在より前
         .order_by('-onstage_time')                  # 時刻が近いもの（降順）
         .first()                                    # 最初の1件だけ
     )
     # 現在より後のイベント（未来）を時刻が近い順に1件取得
-    next_event = (
+    onstage_pos = (
         Team.objects.filter(onstage_time__gte=timezone_now) # 現在以降
         .order_by('onstage_time')                   # 時刻が近いもの（昇順）
         .first()
     )
+    onstage_pos2 = (
+        Team.objects.filter(onstage_time__gte=timezone_now)
+        .order_by('onstage_time')[1]
+    )
+
+    checkin1_now = (
+        Team.objects.filter(checkin_pretime_1__lt=timezone_now)
+        .order_by('-checkin_pretime_1')
+        .first()
+    )
+    checkin1_pos = (
+        Team.objects.filter(checkin_pretime_1__gte=timezone_now)
+        .order_by('checkin_pretime_1')
+        .first()
+    )
+    checkin1_pos2 = (
+        Team.objects.filter(checkin_pretime_1__gte=timezone_now)
+        .order_by('checkin_pretime_1')[1]
+    )
+
+    checkin2_now = (
+        Team.objects.filter(checkin_pretime_2__lt=timezone_now)
+        .order_by('-checkin_pretime_2')
+        .first()
+    )
+    checkin2_pos = (
+        Team.objects.filter(checkin_pretime_2__gte=timezone_now)
+        .order_by('checkin_pretime_2')
+        .first()
+    )
+    checkin2_pos2 = (
+        Team.objects.filter(checkin_pretime_2__gte=timezone_now)
+        .order_by('checkin_pretime_2')[1]
+    )
 
     context = {
-        'previous_event': previous_event,
-        'next_event': next_event,
+        'onstage_now': onstage_now,
+        'onstage_pos': onstage_pos,
+        'onstage_pos2': onstage_pos2,
+        'checkin1_now': checkin1_now,
+        'checkin1_pos': checkin1_pos,
+        'checkin1_pos2': checkin1_pos2,
+        'checkin2_now': checkin2_now,
+        'checkin2_pos': checkin2_pos,
+        'checkin2_pos2': checkin2_pos2,
         'now': timezone_now,
     }
     
     return render(request, 'echoes/index.html', context)
-   
+
 class TeamCreateView(LoginRequiredMixin, View):
   login_url = 'accounts:login'
   redirect_field_name = 'next'
