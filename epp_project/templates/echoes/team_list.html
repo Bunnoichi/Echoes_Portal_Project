@@ -6,7 +6,7 @@
       <table class="table">
          <thead>
             <tr>
-               <th scope="col">出順</th>
+               <th scope="col">No.</th>
                <th scope="col">団体名</th>
                <th scope="col"></th>
                <th scope="col">受付時刻</th>
@@ -19,18 +19,18 @@
                <tr>
                   <th scope="row">{{ forloop.counter }}</th>
                   <td><a href="{% url 'website_app:team_detail' team.id %}" class="card-link">{{ team.team_name }}</a></td>
-                  <td><a href="{% url 'website_app:team_checkin' team.id %}" class="card-link">打刻</a></td>
-                  <td>定刻: {{ team.checkin_pretime_1|date:"n月j日 H:i" }}</td>
-                  <td>定刻: {{ team.checkin_pretime_2|date:"n月j日 H:i" }}</td>
-                  <td>定刻: {{ team.onstage_time|date:"n月j日 H:i" }}</td>
+                  <td>定刻</td>
+                  <td>{{ team.checkin_pretime_1|date:"n月j日 H:i" }}</td>
+                  <td>{{ team.checkin_pretime_2|date:"n月j日 H:i" }}</td>
+                  <td>{{ team.onstage_time|date:"n月j日 H:i" }}</td>
                </tr>
                <tr>
                   <th scope="row"></th>
                   <td></td>
-                  <td></td>
-                  <td>打刻: {{ team.checkin_postime_1|date:"n月j日 H:i" }}</td>
-                  <td>打刻: {{ team.checkin_postime_2|date:"n月j日 H:i" }}</td>
-                  <td>打刻: {{ team.onstage_time_acc|date:"n月j日 H:i" }}</td>
+                  <td><a href="{% url 'website_app:team_checkin' team.id %}" class="card-link">打刻</a></td>
+                  <td>{{ team.checkin_postime_1|date:"n月j日 H:i" }}</td>
+                  <td>{{ team.checkin_postime_2|date:"n月j日 H:i" }}</td>
+                  <td>{{ team.onstage_time_acc|date:"n月j日 H:i" }}</td>
                </tr>
             {% endfor %}
          </tbody>
