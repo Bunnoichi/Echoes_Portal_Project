@@ -2,9 +2,10 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
 from .forms import TeamForm, ReportForm
 from .models import Team, Report
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.utils import timezone
 from datetime import timedelta
+from django.views.generic import DetailView
 
 class IndexView(View):
   def get(self, request):
@@ -126,12 +127,13 @@ class TeamCheckinView(LoginRequiredMixin, View):
         return redirect('website_app:team_list')
       return render(request, 'echoes/team_checkin.html', {'form': form})
       
-class TeamDetailView(LoginRequiredMixin, View):
-  login_url = 'accounts:login'
-  redirect_field_name = 'next'
-  def get(self, request, id):
-    team = get_object_or_404(Team, id=id)
-    return render(request, 'echoes/team_detail.html', {'team': team})
+class TeamDetailView(PermissionRequiredMixin, LoginRequiredMixin, DetailView):
+    model = Team
+    template_name = 'echoes/team_detail.html'
+    context_object_name = 'team'
+    pk_url_kwarg = 'id'  # URLのパラメータ名が pk でない場合に指定
+    login_url = 'accounts:login'
+    permission_required = 'website_app.view_detail'
   
 class TeamUpdateView(LoginRequiredMixin, View):
   login_url = 'accounts:login'

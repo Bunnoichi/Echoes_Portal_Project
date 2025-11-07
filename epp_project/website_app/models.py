@@ -24,6 +24,14 @@ class Team(models.Model):
    def __str__(self):
       return self.team_name
    
+   class Meta:
+    permissions = [
+        ("initial_registration", "団体初期登録権限"),
+        ("checkin", "打刻権限"),
+        ("view_detail", "団体詳細確認権限"),
+        ("update_information", "団体情報更新権限"),
+    ]
+   
 choices_place = {
    '受付': '受付',
    '直前待機場所': '直前待機場所',
@@ -45,3 +53,8 @@ class Report(models.Model):
    def __str__(self):
       return choices_place[self.repo_plac]
    
+   class Meta:
+    permissions = [
+        ("make_report", "報告権限"),
+        ("view_reports", "報告閲覧権限"),
+    ]
