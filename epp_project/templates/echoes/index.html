@@ -1,153 +1,89 @@
 {% extends 'base/echoes_base.html' %}
+{% block title %}トップページ{% endblock %}
 {% block body %}
 
-<h2>トップページ</h2>
-<a href="{% url 'website_app:team_initial_reg' %}">初期登録する</a>
-<a href="{% url 'website_app:team_list' %}">一覧表示</a>
-<a href="{% url 'website_app:report_reg' %}">報告</a>
-<a href="{% url 'website_app:report_list' %}">報告一覧</a>
+<h2 class="mb-3">トップページ</h2>
 
-<div class="container mt-4">
-  <h2>現在のステータス</h2>
-  <p>現在時刻：{{ now|date:"Y-m-d H:i" }}</p>
+<p class="mb-4">現在時刻：<strong>{{ now|date:"Y-m-d H:i" }}</strong></p>
 
-  <h3>各所状況</h3>
-  <h4>受付</h4>
-   <div class="table-responsive">
-      <table class="table">
-         <thead>
-            <tr>
-               <th scope="col">段階</th>
-               <th scope="col">団体名</th>
-               <th scope="col">定刻</th>
-               <th scope="col">到着印</th>
-            </tr>
-         </thead>
-         <tbody>
-            <tr>
-              <th scope="row">現在</th>
-              <td>{{ checkin1_now.team_name }}</td>
-              <td>{{ checkin1_now.checkin_pretime_1 }}</td>
-              <td>
-                {% if checkin1_now.checkin_postime_1 %}
-                  ✅
-                {% endif %}
-              </td>
-            </tr>
-            <tr>
-              <th scope="row">次団体</th>
-              <td>{{ checkin1_pos.team_name }}</td>
-              <td>{{ checkin1_pos.checkin_pretime_1 }}</td>
-              <td>
-                {% if checkin1_pos.checkin_postime_1 %}
-                  ✅
-                {% endif %}
-              </td>
-            </tr>
-            <tr>
-              <th scope="row">次々団体</th>
-              <td>{{ checkin1_pos2.team_name }}</td>
-              <td>{{ checkin1_pos2.checkin_pretime_1 }}</td>
-              <td>
-                {% if checkin1_pos2.checkin_postime_1 %}
-                  ✅
-                {% endif %}
-              </td>
-            </tr>
-         </tbody>
-      </table>
-   </div>
 
-  <h4>前室</h4>
-   <div class="table-responsive">
-      <table class="table">
-         <thead>
-            <tr>
-               <th scope="col">段階</th>
-               <th scope="col">団体名</th>
-               <th scope="col">定刻</th>
-               <th scope="col">到着印</th>
-            </tr>
-         </thead>
-         <tbody>
-            <tr>
-              <th scope="row">現在</th>
-              <td>{{ checkin2_now.team_name }}</td>
-              <td>{{ checkin2_now.checkin_pretime_1 }}</td>
-              <td>
-                {% if checkin2_now.checkin_postime_1 %}
-                  ✅
-                {% endif %}
-              </td>
-            </tr>
-            <tr>
-              <th scope="row">次団体</th>
-              <td>{{ checkin2_pos.team_name }}</td>
-              <td>{{ checkin2_pos.checkin_pretime_1 }}</td>
-              <td>
-                {% if checkin2_pos.checkin_postime_1 %}
-                  ✅
-                {% endif %}
-              </td>
-            </tr>
-            <tr>
-              <th scope="row">次々団体</th>
-              <td>{{ checkin2_pos2.team_name }}</td>
-              <td>{{ checkin2_pos2.checkin_pretime_1 }}</td>
-              <td>
-                {% if checkin2_pos2.checkin_postime_1 %}
-                  ✅
-                {% endif %}
-              </td>
-            </tr>
-         </tbody>
-      </table>
-   </div>
-  
-  <h4>舞台</h4>
-   <div class="table-responsive">
-      <table class="table">
-         <thead>
-            <tr>
-               <th scope="col">段階</th>
-               <th scope="col">団体名</th>
-               <th scope="col">定刻</th>
-               <th scope="col">到着印</th>
-            </tr>
-         </thead>
-         <tbody>
-            <tr>
-              <th scope="row">現在</th>
-              <td>{{ onstage_now.team_name }}</td>
-              <td>{{ onstage_now.checkin_pretime_1 }}</td>
-              <td>
-                {% if onstage_now.checkin_postime_1 %}
-                  ✅
-                {% endif %}
-              </td>
-            </tr>
-            <tr>
-              <th scope="row">次団体</th>
-              <td>{{ onstage_pos.team_name }}</td>
-              <td>{{ onstage_pos.checkin_pretime_1 }}</td>
-              <td>
-                {% if onstage_pos.checkin_postime_1 %}
-                  ✅
-                {% endif %}
-              </td>
-            </tr>
-            <tr>
-              <th scope="row">次々団体</th>
-              <td>{{ onstage_pos2.team_name }}</td>
-              <td>{{ onstage_pos2.checkin_pretime_1 }}</td>
-              <td>
-                {% if onstage_pos2.checkin_postime_1 %}
-                  ✅
-                {% endif %}
-              </td>
-            </tr>
-         </tbody>
-      </table>
-   </div>
+<!-- ======== 受付 ======== -->
+<div class="card mb-4">
+  <div class="card-header bg-primary text-white stage-header">受付</div>
+  <div class="card-body table-responsive">
+    <table class="table table-striped align-middle">
+      <thead>
+        <tr><th>段階</th><th>団体名</th><th>定刻</th><th>到着</th></tr>
+      </thead>
+      <tbody>
+        <tr class="status-now">
+          <th>現在</th><td>{{ checkin1_now.team_name }}</td><td>{{ checkin1_now.checkin_pretime_1 }}</td><td>{% if checkin1_now.checkin_postime_1 %}✅{% endif %}</td>
+        </tr>
+        <tr><th>次</th><td>{{ checkin1_pos.team_name }}</td><td>{{ checkin1_pos.checkin_pretime_1 }}</td><td>{% if checkin1_pos.checkin_postime_1 %}✅{% endif %}</td></tr>
+        <tr><th>次々</th><td>{{ checkin1_pos2.team_name }}</td><td>{{ checkin1_pos2.checkin_pretime_1 }}</td><td>{% if checkin1_pos2.checkin_postime_1 %}✅{% endif %}</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ======== 前室 ======== -->
+<div class="card mb-4">
+  <div class="card-header bg-success text-white stage-header">前室</div>
+  <div class="card-body table-responsive">
+    <table class="table table-striped align-middle">
+      <thead>
+        <tr><th>段階</th><th>団体名</th><th>定刻</th><th>到着</th></tr>
+      </thead>
+      <tbody>
+        <tr class="status-now">
+          <th>現在</th><td>{{ checkin2_now.team_name }}</td><td>{{ checkin2_now.checkin_pretime_1 }}</td><td>{% if checkin2_now.checkin_postime_1 %}✅{% endif %}</td>
+        </tr>
+        <tr><th>次</th><td>{{ checkin2_pos.team_name }}</td><td>{{ checkin2_pos.checkin_pretime_1 }}</td><td>{% if checkin2_pos.checkin_postime_1 %}✅{% endif %}</td></tr>
+        <tr><th>次々</th><td>{{ checkin2_pos2.team_name }}</td><td>{{ checkin2_pos2.checkin_pretime_1 }}</td><td>{% if checkin2_pos2.checkin_postime_1 %}✅{% endif %}</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ======== 舞台 ======== -->
+<div class="card mb-4">
+  <div class="card-header bg-danger text-white stage-header">舞台</div>
+  <div class="card-body table-responsive">
+    <table class="table table-striped align-middle">
+      <thead>
+        <tr><th>段階</th><th>団体名</th><th>定刻</th><th>到着</th></tr>
+      </thead>
+      <tbody>
+        <tr class="status-now">
+          <th>現在</th><td>{{ onstage_now.team_name }}</td><td>{{ onstage_now.checkin_pretime_1 }}</td><td>{% if onstage_now.checkin_postime_1 %}✅{% endif %}</td>
+        </tr>
+        <tr><th>次</th><td>{{ onstage_pos.team_name }}</td><td>{{ onstage_pos.checkin_pretime_1 }}</td><td>{% if onstage_pos.checkin_postime_1 %}✅{% endif %}</td></tr>
+        <tr><th>次々</th><td>{{ onstage_pos2.team_name }}</td><td>{{ onstage_pos2.checkin_pretime_1 }}</td><td>{% if onstage_pos2.checkin_postime_1 %}✅{% endif %}</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- メニュー（スマホは縦、PCは横） -->
+<div class="mb-4 d-grid gap-2 d-md-flex">
+  <a href="{% url 'website_app:team_initial_reg' %}" class="btn btn-primary btn-lg">初期登録</a>
+  <a href="{% url 'website_app:team_list' %}" class="btn btn-secondary btn-lg">団体一覧</a>
+  <a href="{% url 'website_app:report_reg' %}" class="btn btn-warning btn-lg">報告入力</a>
+  <a href="{% url 'website_app:report_list' %}" class="btn btn-info btn-lg">報告一覧</a>
+</div>
+
+
+<!-- ======== 自動更新（画面を揺らさない） ======== -->
+<script>
+  setInterval(() => {
+    fetch(window.location.href, { cache: "no-store" })
+      .then(res => res.text())
+      .then(html => {
+        document.body.innerHTML = new DOMParser()
+          .parseFromString(html, "text/html")
+          .querySelector("body").innerHTML;
+      });
+  }, 5000);
+</script>
 
 {% endblock %}
