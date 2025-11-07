@@ -6,6 +6,10 @@
 
 <p class="mb-4">現在時刻：<strong>{{ now|date:"Y-m-d H:i" }}</strong></p>
 
+<h3 class="mb-3">現在のステージ状況</h3>
+
+
+<h3 class="mb-3">各場面の受付状況</h3>
 
 <!-- ======== 受付 ======== -->
 <div class="card mb-4">
@@ -47,7 +51,7 @@
 
 <!-- ======== 舞台 ======== -->
 <div class="card mb-4">
-  <div class="card-header bg-danger text-white stage-header">舞台</div>
+  <div class="card-header bg-danger text-white stage-header">オンステージ</div>
   <div class="card-body table-responsive">
     <table class="table table-striped align-middle">
       <thead>
@@ -63,6 +67,8 @@
     </table>
   </div>
 </div>
+
+<h3 class="mb-3">データ登録／確認ページ</h3>
 
 <!-- メニュー（スマホは縦、PCは横） -->
 <div class="mb-4 d-grid gap-2 d-md-flex">
@@ -83,7 +89,7 @@
           .parseFromString(html, "text/html")
           .querySelector("body").innerHTML;
       });
-  }, 5000);
+  }, 180000);
 </script>
 
 {% endblock %}
