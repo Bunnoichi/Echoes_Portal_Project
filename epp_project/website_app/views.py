@@ -93,9 +93,11 @@ class IndexView(View):
     
     return render(request, 'echoes/index.html', context)
 
-class TeamCreateView(LoginRequiredMixin, View):
+class TeamCreateView(PermissionRequiredMixin, LoginRequiredMixin, View):
   login_url = 'accounts:login'
   redirect_field_name = 'next'
+  permission_required = 'initial_registration'
+
   def get(self, request):
       form = TeamForm(view_type='initial')
       return render(request, 'echoes/team_initial_reg.html', {'form': form})
@@ -112,9 +114,11 @@ class TeamListView(View):
         team_list = Team.objects.order_by('onstage_time')
         return render(request, 'echoes/team_list.html', {'team_list': team_list})
 
-class TeamCheckinView(LoginRequiredMixin, View):
+class TeamCheckinView(PermissionRequiredMixin, LoginRequiredMixin, View):
   login_url = 'accounts:login'
   redirect_field_name = 'next'
+  permission_required = 'checkin'
+
   def get(self, request, id):
       wanted_field = ['onstage_time_acc', 'checkin_postime_1', 'checkin_charge_1', 'checkin_postime_2', 'checkin_charge_2']
       form = TeamForm(instance=get_object_or_404(Team, id=id), view_type='default')
@@ -135,9 +139,11 @@ class TeamDetailView(PermissionRequiredMixin, LoginRequiredMixin, DetailView):
     login_url = 'accounts:login'
     permission_required = 'website_app.view_detail'
   
-class TeamUpdateView(LoginRequiredMixin, View):
+class TeamUpdateView(LoginRequiredMixin, PermissionRequiredMixin, View):
   login_url = 'accounts:login'
   redirect_field_name = 'next'
+  permission_required = 'website_app.update_information'
+  
   def get(self, request, id):
       form = TeamForm(instance=get_object_or_404(Team, id=id), view_type='default')
       return render(request, 'echoes/team_update.html', {'form': form})
