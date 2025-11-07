@@ -6,8 +6,29 @@
 
 <p class="mb-4">現在時刻：<strong>{{ now|date:"Y-m-d H:i" }}</strong></p>
 
-<h3 class="mb-3">現在のステージ状況</h3>
+<h3 class="mt-4">現在のステージ状況</h3>
 
+<div class="card mb-4">
+  <div class="card-body">
+    <h4 class="card-title">{{ onstage_now.team_name }}</h4>
+
+    <p class="card-text">
+      リハ開始：{{ onstage_now.onstage_time|date:"H:i" }} 〜 
+      本番開始：{{ onstage_now.onstage_time|date:"H:i" }} 〜 
+      終了：{{ progress_info.end|date:"H:i" }}
+      リハ：{{ onstage_now.duration_reha }}分 / 本番：{{ onstage_now.duration_onst }}分  
+      合計：{{ onstage_now.duration_reha|add:onstage_now.duration_onst }}分<br>
+    </p>
+
+    <div class="progress" role="progressbar" aria-label="演奏進行状況">
+      <div class="progress-bar {% if progress_info.progress > 80 %}bg-danger{% else %}bg-primary{% endif %}"
+           style="width: {{ progress_info.progress }}%;">
+        {{ progress_info.progress|floatformat:0 }}%
+      </div>
+    </div>
+
+  </div>
+</div>
 
 <h3 class="mb-3">各場面の受付状況</h3>
 
@@ -42,8 +63,8 @@
         <tr class="status-now">
           <th>現在</th><td>{{ checkin2_now.team_name }}</td><td>{{ checkin2_now.checkin_pretime_1 }}</td><td>{% if checkin2_now.checkin_postime_1 %}✅{% endif %}</td>
         </tr>
-        <tr><th>次</th><td>{{ checkin2_pos.team_name }}</td><td>{{ checkin2_pos.checkin_pretime_1 }}</td><td>{% if checkin2_pos.checkin_postime_1 %}✅{% endif %}</td></tr>
-        <tr><th>次々</th><td>{{ checkin2_pos2.team_name }}</td><td>{{ checkin2_pos2.checkin_pretime_1 }}</td><td>{% if checkin2_pos2.checkin_postime_1 %}✅{% endif %}</td></tr>
+        <tr><th>次</th><td>{{ checkin2_pos.team_name }}</td><td>{{ checkin2_pos.checkin_pretime_2 }}</td><td>{% if checkin2_pos.checkin_postime_1 %}✅{% endif %}</td></tr>
+        <tr><th>次々</th><td>{{ checkin2_pos2.team_name }}</td><td>{{ checkin2_pos2.checkin_pretime_2 }}</td><td>{% if checkin2_pos2.checkin_postime_1 %}✅{% endif %}</td></tr>
       </tbody>
     </table>
   </div>
@@ -59,10 +80,10 @@
       </thead>
       <tbody>
         <tr class="status-now">
-          <th>現在</th><td>{{ onstage_now.team_name }}</td><td>{{ onstage_now.checkin_pretime_1 }}</td><td>{% if onstage_now.checkin_postime_1 %}✅{% endif %}</td>
+          <th>現在</th><td>{{ onstage_now.team_name }}</td><td>{{ onstage_now.onstage_time }}</td><td>{% if onstage_now.checkin_postime_1 %}✅{% endif %}</td>
         </tr>
-        <tr><th>次</th><td>{{ onstage_pos.team_name }}</td><td>{{ onstage_pos.checkin_pretime_1 }}</td><td>{% if onstage_pos.checkin_postime_1 %}✅{% endif %}</td></tr>
-        <tr><th>次々</th><td>{{ onstage_pos2.team_name }}</td><td>{{ onstage_pos2.checkin_pretime_1 }}</td><td>{% if onstage_pos2.checkin_postime_1 %}✅{% endif %}</td></tr>
+        <tr><th>次</th><td>{{ onstage_pos.team_name }}</td><td>{{ onstage_pos.onstage_time }}</td><td>{% if onstage_pos.checkin_postime_1 %}✅{% endif %}</td></tr>
+        <tr><th>次々</th><td>{{ onstage_pos2.team_name }}</td><td>{{ onstage_pos2.onstage_time }}</td><td>{% if onstage_pos2.checkin_postime_1 %}✅{% endif %}</td></tr>
       </tbody>
     </table>
   </div>
