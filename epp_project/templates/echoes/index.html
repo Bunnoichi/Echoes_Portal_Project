@@ -7,17 +7,16 @@
 <p class="mb-4">現在時刻：<strong>{{ now|date:"Y-m-d H:i" }}</strong></p>
 
 <h3 class="mt-4">現在のステージ状況</h3>
-
 <div class="card mb-4">
   <div class="card-body">
     <h4 class="card-title">{{ onstage_now.team_name }}</h4>
-
+    <p class="card-text">{{ onstage_now.team_desc }}</p>
     <p class="card-text">
-      リハ開始：{{ onstage_now.onstage_time|date:"H:i" }} 〜 
-      本番開始：{{ onstage_now.onstage_time|date:"H:i" }} 〜 
-      終了：{{ progress_info.end|date:"H:i" }}
-      リハ：{{ onstage_now.duration_reha }}分 / 本番：{{ onstage_now.duration_onst }}分  
-      合計：{{ onstage_now.duration_reha|add:onstage_now.duration_onst }}分<br>
+      リハ開始：{{ progress_info.start_reha|date:"H:i" }} 〜 
+      本番：{{ progress_info.start_show|date:"H:i" }} 〜 
+      {{ progress_info.end|date:"H:i" }}<br>
+      リハ：{{ onstage_now.duration_reha }}分 ＋ 本番：{{ onstage_now.duration_onst }}分 ＝ 
+      合計：{{ progress_info.total_minutes }}分
     </p>
 
     <div class="progress" role="progressbar" aria-label="演奏進行状況">

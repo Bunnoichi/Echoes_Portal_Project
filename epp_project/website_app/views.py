@@ -59,22 +59,22 @@ class IndexView(View):
         .order_by('checkin_pretime_2')[1]
     )
 
-    # 定刻スタート時刻
-    start = onstage_now.onstage_time
-
     # リハ + 本番 合計分数
     total_minutes = onstage_now.duration_reha + onstage_now.duration_onst
 
     total_seconds = total_minutes * 60
-    elapsed_seconds = onstage_now.onstage_time - timedelta(minutes=onstage_now.duration_reha)
+    elapsed = onstage_now.onstage_time - timedelta(minutes=onstage_now.duration_reha)
     end = onstage_now.onstage_time + timedelta(minutes=onstage_now.duration_onst)
 
     # 0〜100%の範囲に収める
-    progress = max(0, min(100, ((timezone_now - elapsed_seconds).total_seconds() / total_seconds) * 100))
+    progress = max(0, min(100, ((timezone_now - elapsed).total_seconds() / total_seconds) * 100))
     
     progress_info = {
        'progress': progress,
-       'end': end
+       'start_reha': elapsed,
+       'start_show': onstage_now.onstage_time,
+       'total_minutes': total_minutes,
+       'end': end,
     }
 
     context = {
