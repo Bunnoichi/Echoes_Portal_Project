@@ -73,9 +73,17 @@ class IndexView(View):
 
     next_reha = onstage_pos.onstage_time - timedelta(minutes=onstage_now.duration_reha)
 
+    if (end - timezone_now).total_seconds() > 180:
+        bar_class = "bg-success"
+    elif (end - timezone_now).total_seconds() < 60:
+        bar_class = "bg-danger"
+    elif (end - timezone_now).total_seconds() < 180:
+        bar_class = "bg-warning"
+
     if progress == 100 and next_reha < timezone_now:
         progress_team = onstage_pos
-
+        bar_class = "bg-primary"
+        
         total_minutes = onstage_pos.duration_reha + onstage_pos.duration_onst
         total_seconds = total_minutes * 60
         elapsed = onstage_pos.onstage_time - timedelta(minutes=onstage_pos.duration_reha)
@@ -86,8 +94,8 @@ class IndexView(View):
     
     progress_info = {
        'progress': progress,
+       'bar_class': bar_class,
        'start_reha': elapsed,
-       'start_show': onstage_now.onstage_time,
        'total_minutes': total_minutes,
        'end': end,
        'progress_team': progress_team,

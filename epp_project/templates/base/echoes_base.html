@@ -27,6 +27,15 @@
             font-size: 20px;
             padding: 8px 12px;
          }
+
+         /* やさしい点滅（2秒周期） */
+         @keyframes blink-soft {
+         50% { opacity: 0.45; }
+         }
+
+         .progress-blink {
+         animation: blink-soft 2s infinite;
+         }
       </style>
       <!-- 終しーえすえす -->
       <script src="{% static 'website_app/javascript/base.js' %}"></script>

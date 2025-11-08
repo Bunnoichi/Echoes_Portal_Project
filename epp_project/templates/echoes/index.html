@@ -13,15 +13,16 @@
     <p class="card-text">{{ progress_info.progress_team.team_desc }}</p>
     <p class="card-text">
       リハ開始：{{ progress_info.start_reha|date:"H:i" }} 〜 
-      本番：{{ progress_info.start_show|date:"H:i" }} 〜 
+      本番：{{ progress_info.progress_team.onstage_time|date:"H:i" }} 〜 
       {{ progress_info.end|date:"H:i" }}<br>
       リハ：{{ progress_info.progress_team.duration_reha }}分 ＋ 本番：{{ progress_info.progress_team.duration_onst }}分 ＝ 
       合計：{{ progress_info.total_minutes }}分
     </p>
 
-    <div class="progress" role="progressbar" aria-label="演奏進行状況">
-      <div class="progress-bar {% if progress_info.progress > 80 %}bg-danger{% else %}bg-primary{% endif %}"
-           style="width: {{ progress_info.progress }}%;">
+    <div class="progress" role="progressbar" aria-label="演奏進行状況" style="height: 26px;">
+      <div class="progress-bar {{ progress_info.bar_class }}"
+          role="progressbar"
+          style="width: {{ progress_info.progress|floatformat:0 }}%;">
         {{ progress_info.progress|floatformat:0 }}%
       </div>
     </div>
@@ -110,6 +111,16 @@
           .querySelector("body").innerHTML;
       });
   }, 10000);
+
+  bar.classList.remove("bg-success", "bg-warning", "bg-danger", "progress-blink");
+
+  if (percent < 60) {
+    bar.classList.add("bg-success");
+  } else if (percent < 90) {
+    bar.classList.add("bg-warning");
+  } else {
+    bar.classList.add("bg-danger", "progress-blink");  // ✅ ここで点滅追加
+  }
 </script>
 
 {% endblock %}
