@@ -21,11 +21,14 @@
 
     <div class="progress" role="progressbar" aria-label="演奏進行状況" style="height: 26px;">
       <div class="progress-bar {{ progress_info.bar_class }}"
-          role="progressbar"
+          id="liveProgressBar"
+          data-start="{{ progress_info.start_reha|date:'Y-m-d H:i:s' }}"
+          data-end="{{ progress_info.end|date:'Y-m-d H:i:s' }}"
           style="width: {{ progress_info.progress|floatformat:0 }}%;">
-        {{ progress_info.progress|floatformat:0 }}%
+        <span id="liveProgressText">{{ progress_info.progress|floatformat:0 }}%</span>
       </div>
     </div>
+    <div id="remaining-time" class="text-center mt-1" style="font-weight:600;"></div>
 
   </div>
 </div>
@@ -112,15 +115,77 @@
       });
   }, 10000);
 
-  bar.classList.remove("bg-success", "bg-warning", "bg-danger", "progress-blink");
 
-  if (percent < 60) {
-    bar.classList.add("bg-success");
-  } else if (percent < 90) {
-    bar.classList.add("bg-warning");
-  } else {
-    bar.classList.add("bg-danger", "progress-blink");  // ✅ ここで点滅追加
+  // Django から渡される終了時刻（ISO 形式にするのが安全）
+  const endTime = new Date("{{ progress_info.end | date:'Y-m-d H:i:s' }}");
+
+  function updateRemainingTime() {
+    const now = new Date();
+    const diffMs = endTime - now;
+    const diffSec = Math.floor(diffMs / 1000);
+
+    const display = document.getElementById("remaining-time");
+
+    if (diffSec <= 0) {
+      display.textContent = "終了しました";
+      return;
+    }
+
+    // 時間・分・秒に成形（見やすさのため）
+    const h = Math.floor(diffSec / 3600);
+    const m = Math.floor((diffSec % 3600) / 60);
+    const s = diffSec % 60;
+
+    let formatted = "";
+    if (h > 0) formatted += h + "時間 ";
+    if (m > 0) formatted += m + "分 ";
+    formatted += s + "秒";
+
+    display.textContent = "終了まで " + formatted;
   }
+
+  // 初回実行
+  updateRemainingTime();
+
+  // 1秒ごとに更新
+  setInterval(updateRemainingTime, 1000);
+
+  function updateProgress() {
+    const bar = document.getElementById("liveProgressBar");
+    const text = document.getElementById("liveProgressText");
+    const remainText = document.getElementById("remainingTimeText");
+    if (!bar) return;
+
+    const start = new Date(bar.dataset.start).getTime();
+    const end = new Date(bar.dataset.end).getTime();
+    const now = Date.now();
+
+    const total = end - start;
+    const passed = now - start;
+    let ratio = (passed / total) * 100;
+
+    if (ratio < 0) ratio = 0;
+    if (ratio > 100) ratio = 100;
+
+    bar.style.width = ratio.toFixed(0) + "%";
+    text.textContent = ratio.toFixed(0) + "%";
+
+    // 残り秒数
+    const remainingSec = Math.max(0, Math.floor((end - now) / 1000));
+    const min = Math.floor(remainingSec / 60);
+    const sec = remainingSec % 60;
+    remainText.textContent = `終了まで：${min}分${sec}秒`;
+
+    // 終了したら点滅 + 赤表示（任意）
+    if (ratio >= 100) {
+      bar.classList.add("progress-bar-striped", "bg-danger");
+      bar.classList.toggle("active-blink");
+    }
+  }
+
+  // 1秒ごとに更新
+  setInterval(updateProgress, 1000);
+  updateProgress(); // 初回即実行
 </script>
 
 {% endblock %}
