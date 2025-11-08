@@ -68,6 +68,21 @@ class IndexView(View):
 
     # 0〜100%の範囲に収める
     progress = max(0, min(100, ((timezone_now - elapsed).total_seconds() / total_seconds) * 100))
+
+    progress_team = onstage_now
+
+    next_reha = onstage_pos.onstage_time - timedelta(minutes=onstage_now.duration_reha)
+
+    if progress == 100 and next_reha < timezone_now:
+        progress_team = onstage_pos
+
+        total_minutes = onstage_pos.duration_reha + onstage_pos.duration_onst
+        total_seconds = total_minutes * 60
+        elapsed = onstage_pos.onstage_time - timedelta(minutes=onstage_pos.duration_reha)
+        end = onstage_pos.onstage_time + timedelta(minutes=onstage_pos.duration_onst)
+
+        # 0〜100%の範囲に収める
+        progress = max(0, min(100, ((timezone_now - elapsed).total_seconds() / total_seconds) * 100))
     
     progress_info = {
        'progress': progress,
@@ -75,6 +90,7 @@ class IndexView(View):
        'start_show': onstage_now.onstage_time,
        'total_minutes': total_minutes,
        'end': end,
+       'progress_team': progress_team,
     }
 
     context = {

@@ -4,18 +4,18 @@
 
 <h2 class="mb-3">トップページ</h2>
 
-<p class="mb-4">現在時刻：<strong>{{ now|date:"Y-m-d H:i" }}</strong></p>
+<p class="mb-4">更新時刻：<strong>{{ now|date:"Y-m-d H:i:s" }}</strong></p>
 
 <h3 class="mt-4">現在のステージ状況</h3>
 <div class="card mb-4">
   <div class="card-body">
-    <h4 class="card-title">{{ onstage_now.team_name }}</h4>
-    <p class="card-text">{{ onstage_now.team_desc }}</p>
+    <h4 class="card-title">{{ progress_info.progress_team.team_name }}</h4>
+    <p class="card-text">{{ progress_info.progress_team.team_desc }}</p>
     <p class="card-text">
       リハ開始：{{ progress_info.start_reha|date:"H:i" }} 〜 
       本番：{{ progress_info.start_show|date:"H:i" }} 〜 
       {{ progress_info.end|date:"H:i" }}<br>
-      リハ：{{ onstage_now.duration_reha }}分 ＋ 本番：{{ onstage_now.duration_onst }}分 ＝ 
+      リハ：{{ progress_info.progress_team.duration_reha }}分 ＋ 本番：{{ progress_info.progress_team.duration_onst }}分 ＝ 
       合計：{{ progress_info.total_minutes }}分
     </p>
 
@@ -109,7 +109,7 @@
           .parseFromString(html, "text/html")
           .querySelector("body").innerHTML;
       });
-  }, 180000);
+  }, 10000);
 </script>
 
 {% endblock %}
