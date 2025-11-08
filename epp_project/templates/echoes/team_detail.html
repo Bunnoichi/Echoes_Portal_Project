@@ -1,60 +1,113 @@
 {% extends 'base/echoes_base.html' %}
 {% block body %}
+<style>
+  .detail-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px dashed var(--bs-border-color);
+  }
 
-<h2>出演団体の詳細</h2>
-<div class="team_detail_box">
-   <div class="detail_label">団体名</div>
-   <div class="detail_conte">{{ team.team_name }}</div>
-</div>
+  .detail-label {
+    font-weight: 600;
+    color: var(--bs-secondary-color);
+  }
 
-<div class="team_detail_box">
-   <div class="detail_label">説明</div>
-   <div class="detail_conte">{{ team.team_desc }}</div>
-</div>
-<div class="team_detail_box">
-   <div class="detail_label">出演定刻</div>
-   <div class="detail_conte">{{ team.onstage_time }}</div>
-</div>
-<div class="team_detail_box">
-   <div class="detail_label">リハ時間</div>
-   <div class="detail_conte">{{ team.duration_reha }}</div>
-</div>
-<div class="team_detail_box">
-   <div class="detail_label">出演時間</div>
-   <div class="detail_conte">{{ team.duration_onst }}</div>
-</div>
-<div class="team_detail_box">
-   <div class="detail_label">受付定刻</div>
-   <div class="detail_conte">{{ team.checkin_pretime_1 }}</div>
-</div>
-<div class="team_detail_box">
-   <div class="detail_label">受付打刻</div>
-   <div class="detail_conte">{{ team.checkin_postime_1 }}</div>
-</div>
-<div class="team_detail_box">
-   <div class="detail_label">受付担当者</div>
-   <div class="detail_conte">{{ team.checkin_charge_1 }}</div>
-</div>
-{% if team.file_stage %}
-   <div class="team_detail_box">
-      <div class="detail_label">添付ファイル</div>
-      <div class="detail_conte">
-         <a href= "{{ team.file_stage.url }}">{{ team.file_stage }}</a>
+  .detail-value {
+    text-align: right;
+    word-break: break-word;
+  }
+
+  /* メタ情報は文字を少し弱める */
+  .meta .detail-label,
+  .meta .detail-value {
+    opacity: 0.75;
+  }
+
+  /* ダークモードでもちゃんと見える */
+  :root[data-bs-theme="dark"] .card {
+    background-color: #2a2a2a;
+  }
+</style>
+
+<div class="container" style="max-width: 700px;">
+  <h2 class="mb-4">出演団体の詳細</h2>
+
+  <div class="card mb-4 shadow-sm">
+    <div class="card-body">
+
+      <div class="detail-row">
+        <span class="detail-label">団体名</span>
+        <span class="detail-value">{{ team.team_name }}</span>
       </div>
-   </div>
-{% endif %}
 
-<div class="team_detail_box meta">
-   <div class="detail_label">ID</div>
-   <div class="detail_conte">{{ team.id }}</div>
-</div><div class="team_detail_box  meta">
-   <div class="detail_label">作成日時</div>
-   <div class="detail_conte">{{ team.created_at }}</div>
-</div><div class="team_detail_box meta">
-   <div class="detail_label">更新日時</div>
-   <div class="detail_conte">{{ team.updated_at }}</div>
+      <div class="detail-row">
+        <span class="detail-label">説明</span>
+        <span class="detail-value">{{ team.team_desc }}</span>
+      </div>
+
+      <div class="detail-row">
+        <span class="detail-label">出演定刻</span>
+        <span class="detail-value">{{ team.onstage_time }}</span>
+      </div>
+
+      <div class="detail-row">
+        <span class="detail-label">リハ時間</span>
+        <span class="detail-value">{{ team.duration_reha }} 分</span>
+      </div>
+
+      <div class="detail-row">
+        <span class="detail-label">出演時間</span>
+        <span class="detail-value">{{ team.duration_onst }} 分</span>
+      </div>
+
+      <div class="detail-row">
+        <span class="detail-label">受付定刻</span>
+        <span class="detail-value">{{ team.checkin_pretime_1 }}</span>
+      </div>
+
+      <div class="detail-row">
+        <span class="detail-label">受付打刻</span>
+        <span class="detail-value">
+          {% if team.checkin_postime_1 %}
+            {{ team.checkin_postime_1 }} ✅
+          {% else %}
+            <span class="text-muted">未打刻</span>
+          {% endif %}
+        </span>
+      </div>
+
+      {% if team.file_stage %}
+      <div class="detail-row">
+        <span class="detail-label">添付ファイル</span>
+        <span class="detail-value">
+          <a href="{{ team.file_stage.url }}" target="_blank" class="link-primary">開く</a>
+        </span>
+      </div>
+      {% endif %}
+
+      <hr class="my-3">
+
+      <div class="detail-row meta">
+        <span class="detail-label">ID</span>
+        <span class="detail-value">{{ team.id }}</span>
+      </div>
+
+      <div class="detail-row meta">
+        <span class="detail-label">作成日時</span>
+        <span class="detail-value">{{ team.created_at }}</span>
+      </div>
+
+      <div class="detail-row meta">
+        <span class="detail-label">更新日時</span>
+        <span class="detail-value">{{ team.updated_at }}</span>
+      </div>
+
+    </div>
+  </div>
+
+  <a href="{% url 'website_app:team_update' team.id %}"
+     class="btn btn-primary w-100">情報修正</a>
 </div>
-
-<td><a href="{% url 'website_app:team_update' team.id %}" class="card-link">情報修正</a></td>
 
 {% endblock %}

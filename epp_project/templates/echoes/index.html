@@ -80,10 +80,10 @@
       </thead>
       <tbody>
         <tr class="status-now">
-          <th>現在</th><td>{{ onstage_now.team_name }}</td><td>{{ onstage_now.onstage_time }}</td><td>{% if onstage_now.checkin_postime_1 %}✅{% endif %}</td>
+          <th>現在</th><td>{{ onstage_now.team_name }}</td><td>{{ onstage_now.onstage_time }}</td><td>{% if onstage_now.onstage_time_acc %}✅{% endif %}</td>
         </tr>
-        <tr><th>次</th><td>{{ onstage_pos.team_name }}</td><td>{{ onstage_pos.onstage_time }}</td><td>{% if onstage_pos.checkin_postime_1 %}✅{% endif %}</td></tr>
-        <tr><th>次々</th><td>{{ onstage_pos2.team_name }}</td><td>{{ onstage_pos2.onstage_time }}</td><td>{% if onstage_pos2.checkin_postime_1 %}✅{% endif %}</td></tr>
+        <tr><th>次</th><td>{{ onstage_pos.team_name }}</td><td>{{ onstage_pos.onstage_time }}</td><td>{% if onstage_pos.onstage_time_acc %}✅{% endif %}</td></tr>
+        <tr><th>次々</th><td>{{ onstage_pos2.team_name }}</td><td>{{ onstage_pos2.onstage_time }}</td><td>{% if onstage_pos2.onstage_time_acc %}✅{% endif %}</td></tr>
       </tbody>
     </table>
   </div>

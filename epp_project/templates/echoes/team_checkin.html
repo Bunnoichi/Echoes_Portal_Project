@@ -1,55 +1,96 @@
 {% extends 'base/echoes_base.html' %}
+{% load widget_tweaks %}
 {% block body %}
+<style>
+  .stamped {
+    background-color: #d8f5d1 !important; /* 淡いグリーン */
+    transition: background-color 0.3s ease;
+  }
+  /* テーマ共通（クラス名は変えない） */
+  .stamped {
+    transition: background-color 0.3s ease;
+  }
 
-<h2>出演団体登録修正</h2>
-<form method="POST">
-   {% csrf_token %}
+  /* ライトモード時の打刻色 */
+  :root[data-bs-theme="light"] .stamped {
+    background-color: #d8f5d1 !important;  /* 淡いグリーン */
+  }
 
-   {% for field in form %}
+  /* ダークモード時の打刻色 */
+  :root[data-bs-theme="dark"] .stamped {
+    background-color: #32593d !important;  /* 落ち着いた深いグリーン */
+    color: #fff !important;               /* 文字は白で読みやすく */
+  }
+</style>
+
+<div class="container" style="max-width: 650px;">
+  <h2 class="mb-4">出演団体 登録・打刻</h2>
+
+  <form method="POST">
+    {% csrf_token %}
+
+    {% for field in form %}
       {% if field.name in wanted_field %}
-         <div class="fieldWrapper" id="form_{{ field.name }}">
-            {{ field.errors }}
-            {{ field.label_tag }} {{ field }}
-            <button type="button" id="button_{{ field.name }}">打刻</button>
-         </div>
-      {% else %}
-         <div class="fieldWrapper" id="form_{{ field.name }}" hidden>
-            {{ field }}
-         </div>
-      {% endif %}
-   {% endfor %}
+        <div class="mb-3">
+          <label class="form-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
+          
+          <div class="input-group">
+            {{ field|add_class:"form-control" }}
+            <button type="button" class="btn btn-outline-primary" id="button_{{ field.name }}">
+              打刻
+            </button>
+          </div>
 
-   <input type="submit" value="Submit">
-</form>
+          {% for error in field.errors %}
+            <div class="text-danger small">{{ error }}</div>
+          {% endfor %}
+        </div>
+
+      {% else %}
+        <div hidden>
+          {{ field }}
+        </div>
+      {% endif %}
+    {% endfor %}
+
+    <button type="submit" class="btn btn-success w-100 mt-3">保存する</button>
+  </form>
+</div>
 
 <script>
-   let btn1 = document.getElementById("button_onstage_time_acc");
-   let btn2 = document.getElementById("button_checkin_postime_1");
-   let btn3 = document.getElementById("button_checkin_postime_2");
+  const fields = [
+    "onstage_time_acc",
+    "checkin_postime_1",
+    "checkin_postime_2"
+  ];
 
-   btn1.addEventListener('click', function() {
-      var mydiv = document.getElementById("id_onstage_time_acc");
-      mydiv.value = formatDate(new Date());
-   }, false);
-   btn2.addEventListener('click', function() {
-      var mydiv = document.getElementById("id_checkin_postime_1");
-      mydiv.value = formatDate(new Date());
-   }, false);
-   btn3.addEventListener('click', function() {
-      var mydiv = document.getElementById("id_checkin_postime_2");
-      mydiv.value = formatDate(new Date());
-   }, false);
+  fields.forEach(name => {
+    const btn = document.getElementById("button_" + name);
+    const input = document.getElementById("id_" + name);
 
-   function formatDate(dt) {
-      var y = dt.getFullYear();
-      var m = ('00' + (dt.getMonth()+1)).slice(-2);
-      var d = ('00' + dt.getDate()).slice(-2);
+    // ① ページ読み込み時、もし既に値が入っていたら色をつける
+    if (input && input.value) {
+      input.classList.add("stamped");
+    }
 
-      var H = ('00' + (dt.getHours())).slice(-2);
-      var M = ('00' + (dt.getMinutes())).slice(-2);
-      var S = ('00' + (dt.getSeconds())).slice(-2);
+    // ② ボタン押したときの動作
+    if (btn && input) {
+      btn.addEventListener("click", () => {
+        input.value = formatDate(new Date());
+        input.classList.add("stamped");
+      });
+    }
+  });
 
-      return (y + '-' + m + '-' + d + ' ' + H + ':' + M + ':' + S);
-   }
+  function formatDate(dt) {
+    const y = dt.getFullYear();
+    const m = ('00' + (dt.getMonth()+1)).slice(-2);
+    const d = ('00' + dt.getDate()).slice(-2);
+    const H = ('00' + dt.getHours()).slice(-2);
+    const M = ('00' + (dt.getMinutes())).slice(-2);
+    const S = ('00' + (dt.getSeconds())).slice(-2);
+    return `${y}-${m}-${d} ${H}:${M}:${S}`;
+  }
 </script>
+
 {% endblock %}
