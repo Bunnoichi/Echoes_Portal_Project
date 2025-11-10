@@ -1,27 +1,54 @@
 {% extends 'base/echoes_base.html' %}
+{% load widget_tweaks %}
 {% block body %}
+<style>
+    /* 入力欄をエラー風に（ライト/ダーク両対応） */
+  .form-error input.form-control {
+    border: 2px solid #ff4747 !important;
+    background-color: rgba(255, 80, 80, 0.08) !important;
+  }
+</style>
+<div class="d-flex justify-content-center align-items-center" style="min-height: 70vh;">
+  <div class="card shadow-sm" style="max-width: 400px; width: 100%;">
+    <div class="card-body {% if form.errors %}form-error{% endif %}">
 
-<!-- ✅ メッセージ表示 -->
-{% if messages %}
-  {% for message in messages %}
-    <div class="alert alert-info alert-dismissible fade show" role="alert">
-      {{ message }}
-      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="閉じる"></button>
+      <h3 class="text-center mb-4">ログイン</h3>
+
+      <!-- ✅ メッセージ表示 -->
+      {% if messages %}
+        {% for message in messages %}
+          <div class="alert alert-info alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+          </div>
+        {% endfor %}
+      {% endif %}
+
+      <form method="post">
+        {% csrf_token %}
+
+        <div class="mb-3">
+          <label class="form-label">ユーザー名</label>
+          {{ form.username|add_class:"form-control" }}
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">パスワード</label>
+          {{ form.password|add_class:"form-control" }}
+        </div>
+
+        <button type="submit" class="btn btn-primary w-100">ログイン</button>
+      </form>
+
+      <div class="mt-3 text-center">
+        <small>
+          アカウントをお持ちでない方は
+          <a href="{% url 'accounts:signup' %}">新規登録</a>
+        </small>
+      </div>
+
     </div>
-  {% endfor %}
-{% endif %}
-
-  <h2>ログイン</h2>
-  <form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">ログイン</button>
-  </form>
-
-  <p>アカウントをお持ちでない方は <a href="{% url 'accounts:signup' %}">新規登録</a></p>
-
-   <form method="POST" action="{% url 'accounts:logout' %}">
-  {% csrf_token %}
-  <button type="submit">ログアウト</button>
+  </div>
+</div>
 
 {% endblock %}
