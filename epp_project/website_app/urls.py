@@ -9,6 +9,4 @@ urlpatterns = [
    path('team/<uuid:id>/checkin', views.team_checkin, name='team_checkin'),
    path('team/<uuid:id>/detail', views.TeamDetailView.as_view(), name='team_detail'),
    path('team/<uuid:id>/update', views.team_update, name='team_update'),
-   path('report/report', views.report_reg, name='report_reg'),
-   path('report/list', views.report_list, name='report_list'),
 ]

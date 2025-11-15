@@ -1,5 +1,5 @@
 from django.forms import ModelForm
-from .models import Team, Report
+from .models import Team
 
 class TeamForm(ModelForm):
    class Meta:
@@ -18,8 +18,3 @@ class TeamForm(ModelForm):
             remove_fields = ['onstage_time_acc', 'checkin_postime_1', 'checkin_postime_2']
             for name in remove_fields:
                self.fields.pop(name, None)
-         
-class ReportForm(ModelForm):
-   class Meta:
-      model = Report
-      fields = ['repo_cont', 'repo_plac', 'repo_pter']
