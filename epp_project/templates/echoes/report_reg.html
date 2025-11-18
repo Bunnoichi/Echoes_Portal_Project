@@ -5,6 +5,12 @@
 <form method="POST" enctype="multipart/form-data">
    {% csrf_token %}
    
+   <div class="qBox" id="repo_tweet">
+      {{ form.repo_tweet.errors }}
+      {{ form.repo_tweet.label_tag }}
+      {{ form.repo_tweet }}
+   </div>
+
    <div class="qBox" id="repo_publicity">
       {{ form.repo_publicity.errors }}
       {{ form.repo_publicity.label_tag }}
@@ -32,4 +38,23 @@
 
    <input type="submit" value="Submit">
 </form>
+
+<script>
+    const checkbox = document.getElementById("id_repo_tweet");
+    const valueField = document.getElementById("id_repo_publicity");
+
+    function toggleValueField() {
+        if (checkbox.checked) {
+            valueField.value = "only_staff"; // デフォルト値
+            valueField.setAttribute("disabled", "disabled"); // 編集不可
+        } else {
+            valueField.removeAttribute("disabled");
+        }
+    }
+
+    checkbox.addEventListener("change", toggleValueField);
+
+    // 初期状態にも適用
+    toggleValueField();
+</script>
 {% endblock %}

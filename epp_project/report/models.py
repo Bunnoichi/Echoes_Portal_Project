@@ -25,9 +25,10 @@ class Report(models.Model):
    repo_plac = models.CharField(max_length=15, choices=choices_place, verbose_name='発生場所', blank=True, null=True)
    repo_pter = models.CharField(max_length=15, verbose_name='報告者')
    repo_publicity = models.CharField(max_length=15, choices=pub_pri_permissions, verbose_name='表示設定', default='only_staff')
+   repo_tweet = models.BooleanField(verbose_name='つぶやきモード', default=False)
 
    def __str__(self):
-      return choices_place[self.repo_plac]
+      return self.repo_cont
    
    class Meta:
       permissions = [

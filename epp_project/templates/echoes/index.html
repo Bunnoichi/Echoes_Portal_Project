@@ -7,7 +7,6 @@
 <div>
   {{ report.repo_cont }}
   {{ report.created_at }}
-
 </div>
 
 <p class="mb-4">更新時刻：<strong>{{ now|date:"Y-m-d H:i:s" }}</strong></p>
@@ -154,7 +153,7 @@
   updateRemainingTime();
 
   // 1秒ごとに更新
-  setInterval(updateRemainingTime, 1000);
+  setInterval(updateRemainingTime, 1500);
 
   function updateProgress() {
     const bar = document.getElementById("liveProgressBar");
@@ -190,7 +189,7 @@
   }
 
   // 1秒ごとに更新
-  setInterval(updateProgress, 1000);
+  setInterval(updateProgress, 1500);
   updateProgress(); // 初回即実行
 </script>
 
