@@ -6,6 +6,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMix
 from django.utils import timezone
 from datetime import timedelta
 from django.views.generic import DetailView
+from report.models import Report
 
 class IndexView(View):
   def get(self, request):
@@ -101,6 +102,12 @@ class IndexView(View):
        'progress_team': progress_team,
     }
 
+    report = (
+        Report.objects.filter()
+        .order_by()
+        .first()
+    ) 
+
     context = {
         'progress_info':progress_info,
         'onstage_now': onstage_now,
@@ -113,6 +120,7 @@ class IndexView(View):
         'checkin2_pos': checkin2_pos,
         'checkin2_pos2': checkin2_pos2,
         'now': timezone_now,
+        'report': report,
     }
     
     return render(request, 'echoes/index.html', context)

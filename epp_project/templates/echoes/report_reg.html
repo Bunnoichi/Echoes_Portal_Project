@@ -5,6 +5,12 @@
 <form method="POST" enctype="multipart/form-data">
    {% csrf_token %}
    
+   <div class="qBox" id="repo_publicity">
+      {{ form.repo_publicity.errors }}
+      {{ form.repo_publicity.label_tag }}
+      {{ form.repo_publicity }}
+   </div>
+
    <div class="qBox" id="repo_plac">
       {{ form.repo_plac.errors }}
       {{ form.repo_plac.label_tag }}
@@ -22,6 +28,7 @@
       {{ form.repo_pter.label_tag }}
       {{ form.repo_pter }}
    </div>
+
 
    <input type="submit" value="Submit">
 </form>

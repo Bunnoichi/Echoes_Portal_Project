@@ -10,6 +10,7 @@
                <th scope="col">報告時刻</th>
                <th scope="col">発生場所</th>
                <th scope="col">内容</th>
+               <th scope="col">公開設定</th>
                <th scope="col">報告者</th>
             </tr>
          </thead>
@@ -20,6 +21,7 @@
                   <td>{{ report.created_at|date:"n月j日 H:i" }}</td>
                   <td>{{ report.repo_plac }}</td>
                   <td>{{ report.repo_cont }}</td>
+                  <td>{{ report.repo_publicity }}</td>
                   <td>{{ report.repo_pter }}</td>
                </tr>
             {% endfor %}
