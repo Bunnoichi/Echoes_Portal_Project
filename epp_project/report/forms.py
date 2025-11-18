@@ -4,7 +4,7 @@ from .models import Report
 class ReportForm(ModelForm):
    class Meta:
       model = Report
-      fields = ['repo_cont', 'repo_plac', 'repo_pter', 'repo_publicity', 'repo_tweet']
+      fields = ['repo_cont', 'repo_plac', 'repo_publicity', 'repo_tweet']
 
    def clean(self):
       cleaned_data = super().clean()

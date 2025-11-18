@@ -12,7 +12,9 @@ class ReportCreateView(View):
     def post(self, request):
         form = ReportForm(request.POST, request.FILES)
         if form.is_valid():
-          form.save()
+          report = form.save(commit=False)
+          report.repo_pter = request.user.username
+          report.save()
           return redirect('website_app:index')
         return render(request, 'echoes/report_reg.html', {'form': form})
     

@@ -40,21 +40,21 @@
 </form>
 
 <script>
-    const checkbox = document.getElementById("id_repo_tweet");
-    const valueField = document.getElementById("id_repo_publicity");
+   const checkbox = document.getElementById("id_repo_tweet");
+   const valueField = document.getElementById("id_repo_publicity");
 
-    function toggleValueField() {
-        if (checkbox.checked) {
-            valueField.value = "only_staff"; // デフォルト値
-            valueField.setAttribute("disabled", "disabled"); // 編集不可
-        } else {
-            valueField.removeAttribute("disabled");
-        }
-    }
+   function toggleValueField() {
+      if (checkbox.checked) {
+         valueField.value = "only_staff"; // デフォルト値
+         valueField.setAttribute("disabled", "disabled"); // 編集不可
+      } else {
+         valueField.removeAttribute("disabled");
+      }
+   }
 
-    checkbox.addEventListener("change", toggleValueField);
+   checkbox.addEventListener("change", toggleValueField);
 
-    // 初期状態にも適用
-    toggleValueField();
+   // 初期状態にも適用
+   toggleValueField();
 </script>
 {% endblock %}
