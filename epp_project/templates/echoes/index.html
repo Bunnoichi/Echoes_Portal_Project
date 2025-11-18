@@ -4,10 +4,27 @@
 
 <h2 class="mb-3">トップページ</h2>
 
+{% comment %} 全体表示メッセージ {% endcomment %}
 <div>
-  {{ report.repo_cont }}
-  {{ report.created_at }}
+  {{ report.repo_public.repo_cont }}
+  {{ report.repo_public.created_at }}
+  {{ report.repo_public.repo_publicity }}
+  {{ report.repo_public.repo_tweet }}
 </div>
+{% comment %} スタッフ限定メッセージ {% endcomment %}
+{% if user.is_authenticated %}
+  <div>
+    {{ report.repo_staff.repo_cont }}
+    {{ report.repo_staff.created_at }}
+    {{ report.repo_staff.repo_publicity }}
+    {{ report.repo_staff.repo_tweet }}<br>
+    {% comment %} tweet {% endcomment %}
+    {{ report.repo_tweet.repo_cont }}
+    {{ report.repo_tweet.created_at }}
+    {{ report.repo_tweet.repo_publicity }}
+    {{ report.repo_tweet.repo_tweet }}
+  </div>
+{% endif %}
 
 <p class="mb-4">更新時刻：<strong>{{ now|date:"Y-m-d H:i:s" }}</strong></p>
 
@@ -97,15 +114,6 @@
   </div>
 </div>
 
-<h3 class="mb-3">データ登録／確認ページ</h3>
-
-<!-- メニュー（スマホは縦、PCは横） -->
-<div class="mb-4 d-grid gap-2 d-md-flex">
-  <a href="{% url 'website_app:team_initial_reg' %}" class="btn btn-primary btn-lg">初期登録</a>
-  <a href="{% url 'website_app:team_list' %}" class="btn btn-secondary btn-lg">団体一覧</a>
-  <a href="{% url 'report:report_reg' %}" class="btn btn-warning btn-lg">報告入力</a>
-  <a href="{% url 'report:report_list' %}" class="btn btn-info btn-lg">報告一覧</a>
-</div>
 
 
 <!-- ======== 自動更新（画面を揺らさない） ======== -->

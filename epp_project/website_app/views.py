@@ -102,11 +102,27 @@ class IndexView(View):
        'progress_team': progress_team,
     }
 
-    report = (
-        Report.objects.filter()
-        .order_by()
+    repo_tweet = (
+        Report.objects.filter(repo_tweet=True)
+        .order_by('created_at')
         .first()
     ) 
+    repo_public = (
+        Report.objects.filter(repo_tweet=False, repo_publicity='public')
+        .order_by('created_at')
+        .first()
+    ) 
+    repo_staff = (
+        Report.objects.filter(repo_tweet=False, repo_publicity='only_staff')
+        .order_by('created_at')
+        .first()
+    ) 
+
+    report = {
+       'repo_tweet' : repo_tweet,
+       'repo_staff' : repo_staff,
+       'repo_public' : repo_public,
+    }
 
     context = {
         'progress_info':progress_info,
