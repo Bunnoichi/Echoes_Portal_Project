@@ -1,43 +1,66 @@
 {% extends 'base/echoes_base.html' %}
+{% load widget_tweaks %}
 {% block body %}
 
-<h2>報告サイト</h2>
-<form method="POST" enctype="multipart/form-data">
-   {% csrf_token %}
-   
-   <div class="qBox" id="repo_tweet">
-      {{ form.repo_tweet.errors }}
-      {{ form.repo_tweet.label_tag }}
-      {{ form.repo_tweet }}
-   </div>
+<div class="container" style="max-width: 700px;">
+  <h2 class="mb-4">アナウンス投稿</h2>
 
-   <div class="qBox" id="repo_publicity">
-      {{ form.repo_publicity.errors }}
-      {{ form.repo_publicity.label_tag }}
-      {{ form.repo_publicity }}
-   </div>
+  <form method="POST" enctype="multipart/form-data" class="needs-validation" novalidate>
+    {% csrf_token %}
 
-   <div class="qBox" id="repo_plac">
-      {{ form.repo_plac.errors }}
-      {{ form.repo_plac.label_tag }}
-      {{ form.repo_plac }}
-   </div>
+    <!-- Tweet（チェックボックス） -->
+    <div class="mb-3">
+      <label class="form-label" for="{{ form.repo_tweet.id_for_label }}">{{ form.repo_tweet.label }}</label>
+      <div class="form-check">
+        {{ form.repo_tweet|add_class:"form-check-input" }}
+        <label class="form-check-label" for="{{ form.repo_tweet.id_for_label }}">報告じゃなくつぶやきたいときは押す</label>
+      </div>
+      {% for error in form.repo_tweet.errors %}
+        <div class="text-danger small">{{ error }}</div>
+      {% endfor %}
+    </div>
 
-   <div class="qBox" id="repo_cont">
-      {{ form.repo_cont.errors }}
-      {{ form.repo_cont.label_tag }}
-      {{ form.repo_cont }}
-   </div>
+    <!-- 公開区分（セレクト） -->
+    <div class="mb-3">
+      <label class="form-label" for="{{ form.repo_publicity.id_for_label }}">{{ form.repo_publicity.label }}</label>
+      {{ form.repo_publicity|add_class:"form-select" }}
+      {% for error in form.repo_publicity.errors %}
+        <div class="text-danger small">{{ error }}</div>
+      {% endfor %}
+    </div>
 
-   <div class="qBox" id="repo_pter">
-      {{ form.repo_pter.errors }}
-      {{ form.repo_pter.label_tag }}
-      {{ form.repo_pter }}
-   </div>
+    <!-- 場所区分（セレクト） -->
+    <div class="mb-3">
+      <label class="form-label" for="{{ form.repo_plac.id_for_label }}">{{ form.repo_plac.label }}</label>
+      {{ form.repo_plac|add_class:"form-select" }}
+      {% for error in form.repo_plac.errors %}
+        <div class="text-danger small">{{ error }}</div>
+      {% endfor %}
+    </div>
+
+    <!-- 本文（textarea or text） -->
+    <div class="mb-3">
+      <label class="form-label" for="{{ form.repo_cont.id_for_label }}">{{ form.repo_cont.label }}</label>
+      {{ form.repo_cont|add_class:"form-control" }}
+      {% for error in form.repo_cont.errors %}
+        <div class="text-danger small">{{ error }}</div>
+      {% endfor %}
+    </div>
+
+    <!-- 投稿者（テキスト） -->
+    <div class="mb-3">
+      <label class="form-label" for="{{ form.repo_pter.id_for_label }}">{{ form.repo_pter.label }}</label>
+      {{ form.repo_pter|add_class:"form-control" }}
+      {% for error in form.repo_pter.errors %}
+        <div class="text-danger small">{{ error }}</div>
+      {% endfor %}
+    </div>
+
+    <button type="submit" class="btn btn-primary w-100">送信する</button>
+  </form>
+</div>
 
 
-   <input type="submit" value="Submit">
-</form>
 
 <script>
    const checkbox = document.getElementById("id_repo_tweet");
