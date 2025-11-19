@@ -1,8 +1,8 @@
 {% extends 'base/echoes_base.html' %}
-{% block title %}トップページ{% endblock %}
+{% block title %}ステータスページ{% endblock %}
 {% block body %}
 
-<h2 class="mb-3">トップページ</h2>
+<h2 class="mb-3">アナウンス</h2>
 
 <div class="container-fluid py-3">
 
@@ -27,17 +27,6 @@
       <div class="small text-muted">
         投稿日：{{ report.repo_staff.created_at|date:"Y-m-d H:i" }} / 
         発言者：{{ report.repo_staff.repo_pter }}
-      </div>
-    </div>
-
-    {# --- Tweet 用連絡 --- #}
-    <div class="alert alert-secondary shadow-sm" role="alert">
-      <h6 class="mb-1 fw-bold">🐦 スタッフつぶやき 🙄</h6>
-      <div class="mb-2">{{ report.repo_tweet.repo_cont|linebreaksbr }}</div>
-
-      <div class="small text-muted">
-        投稿日：{{ report.repo_tweet.created_at|date:"Y-m-d H:i" }} / 
-        発言者：{{ report.repo_tweet.repo_pter }}
       </div>
     </div>
   {% endif %}
@@ -74,6 +63,103 @@
   </div>
 </div>
 
+<h3 class="mb-3">各場面の受付状況</h3>
+
+<!-- ======== 舞台 ======== -->
+<div class="card mb-4">
+  <div class="card-header bg-danger text-white stage-header">オンステージ</div>
+  <div class="card-body table-responsive">
+    <table class="table table-striped align-middle">
+      <thead>
+        <tr><th></th><th>団体名</th><th>定刻</th><th>済</th></tr>
+      </thead>
+      <tbody>
+        <tr class="status-now">
+          <th>現在</th>
+          <td><a href="{% url 'website_app:team_detail' onstage_now.id %}" class="card-link">{{ onstage_now.team_name }}</a></td>
+          <td>{{ onstage_now.onstage_time }}</td>
+          <td>{% if onstage_now.onstage_time_acc %}✅{% endif %}</td>
+        </tr>
+        <tr>
+          <th>次</th>
+          <td><a href="{% url 'website_app:team_detail' onstage_pos.id %}" class="card-link">{{ onstage_pos.team_name }}</a></td>
+          <td>{{ onstage_pos.onstage_time }}</td>
+          <td>{% if onstage_pos.onstage_time_acc %}✅{% endif %}</td>
+        </tr>
+        <tr>
+          <th>次々</th>
+          <td><a href="{% url 'website_app:team_detail' onstage_pos2.id %}" class="card-link">{{ onstage_pos2.team_name }}</a></td>
+          <td>{{ onstage_pos2.onstage_time }}</td>
+          <td>{% if onstage_pos2.onstage_time_acc %}✅{% endif %}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ======== 前室 ======== -->
+<div class="card mb-4">
+  <div class="card-header bg-success text-white stage-header">前室</div>
+  <div class="card-body table-responsive">
+    <table class="table table-striped align-middle">
+      <thead>
+        <tr><th></th><th>団体名</th><th>定刻</th><th>済</th></tr>
+      </thead>
+      <tbody>
+        <tr class="status-now">
+          <th>現在</th>
+          <td><a href="{% url 'website_app:team_detail' checkin2_now.id %}" class="card-link">{{ checkin2_now.team_name }}</a></td>
+          <td>{{ checkin2_now.onstage_time }}</td>
+          <td>{% if checkin2_now.onstage_time_acc %}✅{% endif %}</td>
+        </tr>
+        <tr>
+          <th>次</th>
+          <td><a href="{% url 'website_app:team_detail' checkin2_pos.id %}" class="card-link">{{ checkin2_pos.team_name }}</a></td>
+          <td>{{ checkin2_pos.onstage_time }}</td>
+          <td>{% if checkin2_pos.onstage_time_acc %}✅{% endif %}</td>
+        </tr>
+        <tr>
+          <th>次々</th>
+          <td><a href="{% url 'website_app:team_detail' checkin2_pos2.id %}" class="card-link">{{ checkin2_pos2.team_name }}</a></td>
+          <td>{{ checkin2_pos2.onstage_time }}</td>
+          <td>{% if checkin2_pos2.onstage_time_acc %}✅{% endif %}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ======== 受付 ======== -->
+<div class="card mb-4">
+  <div class="card-header bg-primary text-white stage-header">受付</div>
+  <div class="card-body table-responsive">
+    <table class="table table-striped align-middle">
+      <thead>
+        <tr><th></th><th>団体名</th><th>定刻</th><th>済</th></tr>
+      </thead>
+      <tbody>
+        <tr class="status-now">
+          <th>現在</th>
+          <td><a href="{% url 'website_app:team_detail' checkin1_now.id %}" class="card-link">{{ checkin1_now.team_name }}</a></td>
+          <td>{{ checkin1_now.onstage_time }}</td>
+          <td>{% if checkin1_now.onstage_time_acc %}✅{% endif %}</td>
+        </tr>
+        <tr>
+          <th>次</th>
+          <td><a href="{% url 'website_app:team_detail' checkin1_pos.id %}" class="card-link">{{ checkin1_pos.team_name }}</a></td>
+          <td>{{ checkin1_pos.onstage_time }}</td>
+          <td>{% if checkin1_pos.onstage_time_acc %}✅{% endif %}</td>
+        </tr>
+        <tr>
+          <th>次々</th>
+          <td><a href="{% url 'website_app:team_detail' checkin1_pos2.id %}" class="card-link">{{ checkin1_pos2.team_name }}</a></td>
+          <td>{{ checkin1_pos2.onstage_time }}</td>
+          <td>{% if checkin1_pos2.onstage_time_acc %}✅{% endif %}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
 
 
 

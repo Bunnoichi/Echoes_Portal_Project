@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'accounts',
     'report',
+    'status',
     'website_app.apps.WebsiteAppConfig',
     "widget_tweaks",
 ]
