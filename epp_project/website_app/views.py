@@ -7,6 +7,8 @@ from django.utils import timezone
 from datetime import timedelta
 from django.views.generic import DetailView
 from report.models import Report
+from datetime import datetime
+
 
 class IndexView(View):
   def get(self, request):
@@ -32,6 +34,11 @@ class IndexView(View):
        onstage_now = onstage_pos
     if (onstage_pos is None):
        onstage_pos = onstage_now
+
+    if (onstage_now is None and onstage_pos is None):
+       onstage_pos = empty_team()
+       onstage_now = empty_team()
+       
 
     # リハ + 本番 合計分数
     total_minutes = onstage_now.duration_reha + onstage_now.duration_onst
@@ -212,3 +219,13 @@ def custom_permission_denied_view(request, exception=None):
     response = render(request, "403.html")
     response.status_code = 403
     return response
+
+DEFAULT_DATETIME = timezone.make_aware(datetime(2025, 12, 31, 0, 0))
+
+def empty_team():
+    return Team(
+        team_name="終了",
+        onstage_time=DEFAULT_DATETIME,
+        checkin_pretime_1=DEFAULT_DATETIME,
+        checkin_pretime_2=DEFAULT_DATETIME,
+    )
