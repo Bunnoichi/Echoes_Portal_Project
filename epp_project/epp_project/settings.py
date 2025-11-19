@@ -55,6 +55,11 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+# 日時フォーマット
+FORMAT_MODULE_PATH = [
+    "epp_project.formats",
+]
+
 ROOT_URLCONF = 'epp_project.urls'
 
 TEMPLATES = [
