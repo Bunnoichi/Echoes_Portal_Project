@@ -14,9 +14,9 @@ class Team(models.Model):
    checkin_koedashi = models.DateTimeField(verbose_name="声出し開始定刻",null=True, blank=True)
    duration_koed = models.IntegerField(verbose_name='声出し分数', default=17, null=True, blank=True)
    checkin_pretime_2 = models.DateTimeField(verbose_name="控室到着定刻", null=True, blank=True)
-   duration_reha = models.IntegerField(verbose_name='リハ分数', default=5, null=True, blank=True)
+   duration_reha = models.IntegerField(verbose_name='リハ分数', default=5)
    onstage_time = models.DateTimeField(verbose_name="出演定刻")
-   duration_onst = models.IntegerField(verbose_name="出演分数", default=10, null=True, blank=True)
+   duration_onst = models.IntegerField(verbose_name="出演分数", default=10)
 
    checkin_postime_1 = models.DateTimeField(verbose_name="受付打刻",null=True, blank=True)
    checkin_postime_2 = models.DateTimeField(verbose_name="控室到着打刻",null=True, blank=True)

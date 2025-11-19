@@ -26,46 +26,60 @@ class IndexView(View):
         .first()
     )
 
+    if (onstage_now is None):
+       onstage_now = onstage_pos
+    if (onstage_pos is None):
+       onstage_pos = onstage_now
 
     # リハ + 本番 合計分数
     total_minutes = onstage_now.duration_reha + onstage_now.duration_onst
-
     total_seconds = total_minutes * 60
-    elapsed = onstage_now.onstage_time - timedelta(minutes=onstage_now.duration_reha)
-    end = onstage_now.onstage_time + timedelta(minutes=onstage_now.duration_onst)
+
+    start_reha = onstage_now.onstage_time - timedelta(minutes=onstage_now.duration_reha)
+    end_stage = onstage_now.onstage_time + timedelta(minutes=onstage_now.duration_onst)
 
     # 0〜100%の範囲に収める
-    progress = max(0, min(100, ((timezone_now - elapsed).total_seconds() / total_seconds) * 100))
+    progress = max(0, min(100, ((timezone_now - start_reha).total_seconds() / total_seconds) * 100))
 
     progress_team = onstage_now
 
-    next_reha = onstage_pos.onstage_time - timedelta(minutes=onstage_now.duration_reha)
-
-    if (end - timezone_now).total_seconds() > 180:
+    if (end_stage - timezone_now).total_seconds() > 180:
         bar_class = "bg-success"
-    elif (end - timezone_now).total_seconds() < 60:
+    elif (end_stage - timezone_now).total_seconds() < 60:
         bar_class = "bg-danger"
-    elif (end - timezone_now).total_seconds() < 180:
+    elif (end_stage - timezone_now).total_seconds() < 180:
         bar_class = "bg-warning"
 
-    if progress == 100 and next_reha < timezone_now:
+    if ( start_reha < timezone_now and timezone_now < onstage_now.onstage_time):
+        now_status = {'st':'リハ中', 'co': 'text-warning'}
+    elif (onstage_now.onstage_time < timezone_now and timezone_now < end_stage):
+        now_status = {'st':'本番中', 'co': 'text-danger'}
+    else:
+        now_status = {'st':'待機中', 'co': 'bg-transparent'}
+
+    if progress == 100:
         progress_team = onstage_pos
         bar_class = "bg-primary"
         
         total_minutes = onstage_pos.duration_reha + onstage_pos.duration_onst
         total_seconds = total_minutes * 60
-        elapsed = onstage_pos.onstage_time - timedelta(minutes=onstage_pos.duration_reha)
-        end = onstage_pos.onstage_time + timedelta(minutes=onstage_pos.duration_onst)
+        start_reha = onstage_pos.onstage_time - timedelta(minutes=onstage_pos.duration_reha)
+        end_stage = onstage_pos.onstage_time + timedelta(minutes=onstage_pos.duration_onst)
 
         # 0〜100%の範囲に収める
-        progress = max(0, min(100, ((timezone_now - elapsed).total_seconds() / total_seconds) * 100))
+        progress = max(0, min(100, ((timezone_now - start_reha).total_seconds() / total_seconds) * 100))
+
+        now_status = {'st':'待機中', 'co': 'text-transparent'}
+
+
     
     progress_info = {
        'progress': progress,
+       'now_status': now_status,
        'bar_class': bar_class,
-       'start_reha': elapsed,
+       'start_reha': start_reha,
        'total_minutes': total_minutes,
-       'end': end,
+       'end': end_stage,
        'progress_team': progress_team,
     }
 

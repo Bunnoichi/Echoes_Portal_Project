@@ -93,10 +93,25 @@
 <p class="mb-4">更新時刻：<strong>{{ now|date:"Y-m-d H:i:s" }}</strong></p>
 
 <h3 class="mt-4">現在のステージ状況</h3>
+
 <div class="card mb-4">
-  <div class="card-body">
-    <h4 class="card-title">{{ progress_info.progress_team.team_name }}</h4>
-    <p class="card-text">{{ progress_info.progress_team.team_desc }}</p>
+  <div class="team-card shadow-sm">
+    {% if progress_info.progress_team.file_artpic %}
+      <img src="{{ progress_info.progress_team.file_artpic.url }}" alt="{{ progress_info.progress_team.team_name }}">
+
+      <div class="team-overlay">
+        <h5>{{ progress_info.progress_team.team_name }}</h5>
+      </div>
+    {% else %}
+      <!-- 画像がないときの自動代替 -->
+      <div class="p-4 bg-secondary text-white">
+        <h5 class="m-0">{{ progress_info.progress_team.team_name }}</h5>
+      </div>
+    {% endif %}
+  </div>
+
+<div class="card-body">
+    <h4 class="card-title {{ progress_info.now_status.co }}">{{ progress_info.now_status.st }}</h4>
     <p class="text-muted">
       リハ開始：{{ progress_info.start_reha|date:"H:i" }} 〜 
       本番：{{ progress_info.progress_team.onstage_time|date:"H:i" }} 〜 
@@ -117,6 +132,7 @@
     <div id="remaining-time" class="text-center mt-1" style="font-weight:600;"></div>
 
   </div>
+
 </div>
 
 <h2 class="mt-4">出演者リスト</h2>
