@@ -24,10 +24,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-ch*xs$cklk7-j^9pi&kmksd!u^vvy)p5m9+#!-+0f4rjcrm$k%'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 
+# ハンドラ登録
+handler403 = "website_app.views.custom_permission_denied_view"
 
 # Application definition
 

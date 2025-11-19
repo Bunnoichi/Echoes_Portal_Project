@@ -1,0 +1,9 @@
+{% extends 'base/echoes_base.html' %}
+
+{% block body %}
+<div class="container py-5 text-center">
+    <h1 class="display-4 text-danger">403 Forbidden</h1>
+    <p>このページにアクセスする権限がありません。</p>
+    <a href="{% url 'website_app:index' %}" class="btn btn-primary mt-3">トップへ戻る</a>
+</div>
+{% endblock %}

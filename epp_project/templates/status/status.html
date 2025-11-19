@@ -1,8 +1,10 @@
 {% extends 'base/echoes_base.html' %}
-{% block title %}ステータスページ{% endblock %}
+{% block page_title %}
+<h1 class="page-title">現在の状況</h1>
+{% endblock %}
 {% block body %}
 
-<h2 class="mb-3">アナウンス</h2>
+<h2 class="section-title">アナウンス</h2>
 
 <div class="container-fluid py-3">
 
@@ -76,7 +78,7 @@
   </div>
 </div>
 
-<h3 class="mb-3">各場面の受付状況</h3>
+<h3 class="section-title">各場面の受付状況</h3>
 
 <!-- ======== 舞台 ======== -->
 <div class="card mb-4">

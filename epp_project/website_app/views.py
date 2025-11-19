@@ -149,7 +149,7 @@ class TeamDetailView(PermissionRequiredMixin, LoginRequiredMixin, DetailView):
     login_url = 'accounts:login'
     permission_required = 'website_app.view_detail'
   
-class TeamUpdateView(LoginRequiredMixin, PermissionRequiredMixin, View):
+class TeamUpdateView(PermissionRequiredMixin, LoginRequiredMixin, View):
   login_url = 'accounts:login'
   redirect_field_name = 'next'
   permission_required = 'website_app.update_information'
@@ -206,3 +206,9 @@ team_update = TeamUpdateView.as_view()
 team_checkin = TeamCheckinView.as_view()
 team_detail = TeamDetailView.as_view()
 team_detail_pub = TeamPublicDetailView.as_view()
+
+
+def custom_permission_denied_view(request, exception=None):
+    response = render(request, "403.html")
+    response.status_code = 403
+    return response
