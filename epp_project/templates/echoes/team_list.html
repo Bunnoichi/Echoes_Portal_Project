@@ -20,17 +20,17 @@
                   <th scope="row">{{ forloop.counter }}</th>
                   <td><a href="{% url 'website_app:team_detail' team.id %}" class="card-link">{{ team.team_name }}</a></td>
                   <td>定刻</td>
-                  <td>{{ team.checkin_pretime_1|date:"n月j日 H:i" }}</td>
-                  <td>{{ team.checkin_pretime_2|date:"n月j日 H:i" }}</td>
-                  <td>{{ team.onstage_time|date:"n月j日 H:i" }}</td>
+                  <td>{{ team.checkin_pretime_1|date:"'j, H:i" }}</td>
+                  <td>{{ team.checkin_pretime_2|date:"'j, H:i" }}</td>
+                  <td>{{ team.onstage_time|date:"'j, H:i" }}</td>
                </tr>
                <tr>
                   <th scope="row"></th>
                   <td></td>
                   <td><a href="{% url 'website_app:team_checkin' team.id %}" class="card-link">打刻</a></td>
-                  <td>{{ team.checkin_postime_1|date:"n月j日 H:i" }}</td>
-                  <td>{{ team.checkin_postime_2|date:"n月j日 H:i" }}</td>
-                  <td>{{ team.onstage_time_acc|date:"n月j日 H:i" }}</td>
+                  <td>{{ team.checkin_postime_1|date:"'j, H:i" }}</td>
+                  <td>{{ team.checkin_postime_2|date:"'j, H:i" }}</td>
+                  <td>{{ team.onstage_time_acc|date:"'j, H:i" }}</td>
                </tr>
             {% endfor %}
          </tbody>
