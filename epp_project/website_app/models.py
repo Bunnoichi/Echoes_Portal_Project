@@ -20,15 +20,20 @@ class Team(models.Model):
 
    checkin_postime_1 = models.DateTimeField(verbose_name="受付打刻",null=True, blank=True)
    checkin_postime_2 = models.DateTimeField(verbose_name="控室到着打刻",null=True, blank=True)
-   onstage_time_acc = models.DateTimeField(verbose_name="出演打刻", null = True, blank=True)
-   team_equip = models.TextField(verbose_name='使用機材等',max_length=1000, null=True, blank=True)
+   onstage_time_acc = models.DateTimeField(verbose_name="開演打刻", null = True, blank=True)
+   onstage_tien_acc = models.DateTimeField(verbose_name="終演打刻", null = True, blank=True)
+
    team_rep = models.CharField(verbose_name="代表者名（カナ）",null=True, blank=True)
    team_rep_mail = models.CharField(verbose_name="代表者メールアドレス",null=True, blank=True)
    team_rep_tel = models.CharField(verbose_name="代表者電話番号",null=True, blank=True)
+
+   file_artpic = models.ImageField(upload_to='website_app/art_pictures/', null=True, blank=True, verbose_name='アーティスト写真')
    file_form = models.FileField(upload_to='website_app/form_files/',null=True,  blank=True, verbose_name='応募ファイル')
    file_stage = models.FileField(upload_to='website_app/stage_files/',null=True, blank=True, verbose_name='ステージファイル')
-   file_artpic = models.ImageField(upload_to='website_app/art_pictures/', null=True, blank=True, verbose_name='アーティスト写真')
+
+   team_equip = models.TextField(verbose_name='使用機材等',max_length=1000, null=True, blank=True)
    note = models.TextField(verbose_name='備考',max_length=1000, null=True, blank=True)
+   
    created_at = models.DateTimeField(auto_now_add=True, verbose_name="作成日時")
    updated_at = models.DateTimeField(auto_now=True, verbose_name="更新日時")
 

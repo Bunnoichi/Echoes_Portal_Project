@@ -127,7 +127,7 @@
         <span class="detail-label">受付打刻</span>
         <span class="detail-value">
           {% if team.checkin_postime_1 %}
-            {{ team.checkin_postime_1 }} ✅
+            {{ team.checkin_postime_1 }}
           {% else %}
             <span class="text-muted">未打刻</span>
           {% endif %}
@@ -138,7 +138,7 @@
         <span class="detail-label">控室到着打刻</span>
         <span class="detail-value">
           {% if team.checkin_postime_2 %}
-            {{ team.checkin_postime_2 }} ✅
+            {{ team.checkin_postime_2 }}
           {% else %}
             <span class="text-muted">未打刻</span>
           {% endif %}
@@ -146,10 +146,20 @@
       </div>
 
       <div class="detail-row">
-        <span class="detail-label">出演打刻</span>
+        <span class="detail-label">開演打刻</span>
         <span class="detail-value">
           {% if team.onstage_time_acc %}
-            {{ team.onstage_time_acc }} ✅
+            {{ team.onstage_time_acc }}
+          {% else %}
+            <span class="text-muted">未打刻</span>
+          {% endif %}
+        </span>
+      </div>
+      <div class="detail-row">
+        <span class="detail-label">終演打刻</span>
+        <span class="detail-value">
+          {% if team.onstage_time_acc %}
+            {{ team.onstage_time_acc }}
           {% else %}
             <span class="text-muted">未打刻</span>
           {% endif %}

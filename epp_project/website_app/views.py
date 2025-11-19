@@ -153,7 +153,7 @@ class TeamCheckinView(PermissionRequiredMixin, LoginRequiredMixin, View):
   permission_required = 'checkin'
 
   def get(self, request, id):
-      wanted_field = ['onstage_time_acc', 'checkin_postime_1', 'checkin_charge_1', 'checkin_postime_2', 'checkin_charge_2']
+      wanted_field = ['onstage_time_acc', 'onstage_tien_acc', 'checkin_postime_1', 'checkin_postime_2']
       form = TeamForm(instance=get_object_or_404(Team, id=id), view_type='default')
       return render(request, 'echoes/team_checkin.html', {'form': form, 'wanted_field':wanted_field})
   
