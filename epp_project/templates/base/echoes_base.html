@@ -36,6 +36,79 @@
          .progress-blink {
          animation: blink-soft 2s infinite;
          }
+         /* ============================
+            モダン見出しデザイン
+         ============================ */
+
+         .section-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            padding-left: 14px;
+            margin: 2rem 0 1rem;
+            border-left: 5px solid var(--bs-primary);
+            letter-spacing: 0.5px;
+         }
+
+         .section-subtitle {
+            font-size: 1.25rem;
+            font-weight: 600;
+            padding-left: 12px;
+            margin: 1.5rem 0 1rem;
+            border-left: 4px solid var(--bs-secondary);
+            opacity: 0.9;
+         }
+
+         /* ダークモード調整 */
+         :root[data-bs-theme="dark"] .section-title {
+            border-left-color: var(--bs-info);
+         }
+
+         :root[data-bs-theme="dark"] .section-subtitle {
+            border-left-color: var(--bs-gray-500);
+         }
+
+         .team-card {
+            position: relative;
+            overflow: hidden;
+            border: none;
+            border-radius: 12px;
+         }
+
+         .team-card img {
+            width: 100%;
+            height: 240px;
+            object-fit: cover;
+            transition: transform 0.4s ease;
+         }
+
+         /* ホバー時に画像が少しズーム */
+         .team-card:hover img {
+            transform: scale(1.05);
+         }
+
+         /* 下 1/4 オーバーレイ */
+         .team-overlay {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 25%;
+            background: linear-gradient(to top, rgba(0,0,0,0.65), rgba(0,0,0,0));
+            display: flex;
+            align-items: flex-end;
+            padding: 10px 15px;
+         }
+
+         .team-overlay h5 {
+            color: white;
+            margin: 0;
+            font-weight: 600;
+            text-shadow: 0 1px 4px rgba(0,0,0,0.6);
+         }
+
+         /* ダークモード用：画像上の黒を少し弱める */
+         :root[data-bs-theme="dark"] .team-overlay {
+            background: linear-gradient(to top, rgba(0,0,0,0.45), rgba(0,0,0,0));
+         }
       </style>
       <!-- 終しーえすえす -->
       <script src="{% static 'website_app/javascript/base.js' %}"></script>

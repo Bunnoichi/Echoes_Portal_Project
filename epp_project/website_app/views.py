@@ -26,6 +26,8 @@ class IndexView(View):
         .first()
     )
 
+
+
     if (onstage_now is None):
        onstage_now = onstage_pos
     if (onstage_pos is None):
@@ -43,23 +45,10 @@ class IndexView(View):
 
     progress_team = onstage_now
 
-    if (end_stage - timezone_now).total_seconds() > 180:
-        bar_class = "bg-success"
-    elif (end_stage - timezone_now).total_seconds() < 60:
-        bar_class = "bg-danger"
-    elif (end_stage - timezone_now).total_seconds() < 180:
-        bar_class = "bg-warning"
 
-    if ( start_reha < timezone_now and timezone_now < onstage_now.onstage_time):
-        now_status = {'st':'リハ中', 'co': 'text-warning'}
-    elif (onstage_now.onstage_time < timezone_now and timezone_now < end_stage):
-        now_status = {'st':'本番中', 'co': 'text-danger'}
-    else:
-        now_status = {'st':'待機中', 'co': 'bg-transparent'}
 
     if progress == 100:
         progress_team = onstage_pos
-        bar_class = "bg-primary"
         
         total_minutes = onstage_pos.duration_reha + onstage_pos.duration_onst
         total_seconds = total_minutes * 60
@@ -69,7 +58,21 @@ class IndexView(View):
         # 0〜100%の範囲に収める
         progress = max(0, min(100, ((timezone_now - start_reha).total_seconds() / total_seconds) * 100))
 
-        now_status = {'st':'待機中', 'co': 'text-transparent'}
+
+
+    if (end_stage - timezone_now).total_seconds() > 180:
+        bar_class = "bg-success"
+    elif (end_stage - timezone_now).total_seconds() < 60:
+        bar_class = "bg-danger"
+    elif (end_stage - timezone_now).total_seconds() < 180:
+        bar_class = "bg-warning"
+
+    if ( start_reha < timezone_now and timezone_now < progress_team.onstage_time):
+        now_status = {'st':'リハ中', 'co': 'bg-warning'}
+    elif (progress_team.onstage_time < timezone_now and timezone_now < end_stage):
+        now_status = {'st':'本番中', 'co': 'bg-danger'}
+    else:
+        now_status = {'st':'待機中', 'co': 'bg-transparent'}
 
 
     
