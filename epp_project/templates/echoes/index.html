@@ -97,7 +97,7 @@
   <div class="card-body">
     <h4 class="card-title">{{ progress_info.progress_team.team_name }}</h4>
     <p class="card-text">{{ progress_info.progress_team.team_desc }}</p>
-    <p class="card-text">
+    <p class="text-muted">
       リハ開始：{{ progress_info.start_reha|date:"H:i" }} 〜 
       本番：{{ progress_info.progress_team.onstage_time|date:"H:i" }} 〜 
       {{ progress_info.end|date:"H:i" }}<br>
@@ -119,6 +119,7 @@
   </div>
 </div>
 
+<h2 class="mt-4">出演者リスト</h2>
 
 {% for team in team_list %}
   <div class="card mb-4">
@@ -143,7 +144,7 @@
       <h5 class="card-title">About {{ team.team_name }}</h5>
       <p class="card-text">{{ team.team_desc }}</p>
 
-      <h6 class="mt-3">Appear at</h6>
+      <h6 class="mt-3">Appears at</h6>
       <p class="card-text">{{ team.onstage_time }}</p>
 
       {% if team.team_belong %}
