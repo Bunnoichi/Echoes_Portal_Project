@@ -4,7 +4,7 @@ from .models import Team
 class TeamForm(ModelForm):
    class Meta:
       model = Team
-      fields = ['team_name', 'team_name_kana', 'team_desc', 'team_ninzu', 'team_rep', 'team_rep_mail', 'team_rep_tel', 'checkin_pretime_1', 'checkin_postime_1', 'checkin_pretime_2', 'checkin_postime_2', 'duration_reha', 'duration_onst', 'onstage_time', 'onstage_time_acc', 'file_form', 'file_stage', 'team_equip', 'note']
+      fields = ['team_name', 'team_name_kana', 'team_desc', 'team_ninzu', 'team_belong', 'team_rep', 'team_rep_mail', 'team_rep_tel', 'checkin_pretime_1', 'checkin_postime_1', 'checkin_pretime_2', 'checkin_koedashi', 'checkin_postime_2', 'duration_koed', 'duration_reha', 'duration_onst', 'onstage_time', 'onstage_time_acc', 'file_form', 'file_stage', 'file_artpic', 'team_equip', 'note']
 
    def __init__(self, *args, **kwargs):
       view_type = kwargs.pop('view_type', None)
