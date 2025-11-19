@@ -122,20 +122,20 @@
         <tr class="status-now">
           <th>現在</th>
           <td><a href="{% url 'website_app:team_detail' checkin2_now.id %}" class="card-link">{{ checkin2_now.team_name }}</a></td>
-          <td>{{ checkin2_now.checkin_pretime_2 }}</td>
-          <td>{% if checkin2_now.checkin_postime_2 %}✅{% endif %}</td>
+          <td>{{ checkin2_now.onstage_time }}</td>
+          <td>{% if checkin2_now.onstage_time_acc %}✅{% endif %}</td>
         </tr>
         <tr>
           <th>次</th>
           <td><a href="{% url 'website_app:team_detail' checkin2_pos.id %}" class="card-link">{{ checkin2_pos.team_name }}</a></td>
-          <td>{{ checkin2_pos.checkin_pretime_2 }}</td>
-          <td>{% if checkin2_pos.checkin_postime_2 %}✅{% endif %}</td>
+          <td>{{ checkin2_pos.onstage_time }}</td>
+          <td>{% if checkin2_pos.onstage_time_acc %}✅{% endif %}</td>
         </tr>
         <tr>
           <th>次々</th>
           <td><a href="{% url 'website_app:team_detail' checkin2_pos2.id %}" class="card-link">{{ checkin2_pos2.team_name }}</a></td>
-          <td>{{ checkin2_pos2.checkin_pretime_2 }}</td>
-          <td>{% if checkin2_pos2.checkin_postime_2 %}✅{% endif %}</td>
+          <td>{{ checkin2_pos2.onstage_time }}</td>
+          <td>{% if checkin2_pos2.onstage_time_acc %}✅{% endif %}</td>
         </tr>
       </tbody>
     </table>
@@ -153,27 +153,21 @@
       <tbody>
         <tr class="status-now">
           <th>現在</th>
-          <td>
-            {% if checkin1_now.id %}
-            <a href="{% url 'website_app:team_detail' checkin1_now.id %}" class="card-link">{{ checkin1_now.team_name }}</a>
-            {% else %}
-              <span class="text-muted">※データなし</span>
-            {% endif %}
-          </td>
-          <td>{{ checkin1_now.checkin_pretime_1 }}</td>
-          <td>{% if checkin1_now.checkin_postime_1 %}✅{% endif %}</td>
+          <td><a href="{% url 'website_app:team_detail' checkin1_now.id %}" class="card-link">{{ checkin1_now.team_name }}</a></td>
+          <td>{{ checkin1_now.onstage_time }}</td>
+          <td>{% if checkin1_now.onstage_time_acc %}✅{% endif %}</td>
         </tr>
         <tr>
           <th>次</th>
           <td><a href="{% url 'website_app:team_detail' checkin1_pos.id %}" class="card-link">{{ checkin1_pos.team_name }}</a></td>
-          <td>{{ checkin1_pos.checkin_pretime_1 }}</td>
-          <td>{% if checkin1_pos.checkin_postime_1 %}✅{% endif %}</td>
+          <td>{{ checkin1_pos.onstage_time }}</td>
+          <td>{% if checkin1_pos.onstage_time_acc %}✅{% endif %}</td>
         </tr>
         <tr>
           <th>次々</th>
           <td><a href="{% url 'website_app:team_detail' checkin1_pos2.id %}" class="card-link">{{ checkin1_pos2.team_name }}</a></td>
-          <td>{{ checkin1_pos2.checkin_pretime_1 }}</td>
-          <td>{% if checkin1_pos2.checkin_postime_1 %}✅{% endif %}</td>
+          <td>{{ checkin1_pos2.onstage_time }}</td>
+          <td>{% if checkin1_pos2.onstage_time_acc %}✅{% endif %}</td>
         </tr>
       </tbody>
     </table>

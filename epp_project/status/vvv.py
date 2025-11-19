@@ -10,93 +10,54 @@ class IndexView(View):
     def get(self, request):
         timezone_now = timezone.now()
 
-        # ====== onstage ======
-        # 現在時より前の最新イベント
+
         onstage_now = first_or_empty(
             Team.objects.filter(onstage_time__lt=timezone_now)
             .order_by('-onstage_time')
         )
 
-
-        # 現在以降の1番目のイベント
         onstage_pos = first_or_empty(
             Team.objects.filter(onstage_time__gte=timezone_now)
             .order_by('onstage_time')
         )
 
-        # 現在以降の2番目のイベント
         onstage_pos2 = nth_or_empty(
             Team.objects.filter(onstage_time__gte=timezone_now)
             .order_by('onstage_time'),
             1
         )
 
-        # 前のイベントが無い場合 → 次のイベントを使う
-        if onstage_now.team_name == "終了":   # empty_team の場合
-            onstage_now = onstage_pos
-            onstage_pos = onstage_pos2
-            onstage_pos2 = nth_or_empty(
-                Team.objects.filter(onstage_time__gte=timezone_now)
-                .order_by('onstage_time'),
-                2
-            )
+        # checkin1_now = first_or_empty(
+        #     Team.objects.filter(checkin_pretime_1__lt=timezone_now)
+        #     .order_by('-checkin_pretime_1')
+        # )
 
+        # checkin1_pos = first_or_empty(
+        #     Team.objects.filter(checkin_pretime_1__gte=timezone_now)
+        #     .order_by('checkin_pretime_1')
+        # )
 
-        # ====== checkin1 ======
-        checkin1_now = first_or_empty(
-            Team.objects.filter(checkin_pretime_1__lt=timezone_now)
-            .order_by('-checkin_pretime_1')
-        )
+        # checkin1_pos2 = nth_or_empty(
+        #     Team.objects.filter(checkin_pretime_1__gte=timezone_now)
+        #     .order_by('checkin_pretime_1'),
+        #     1
+        # )
 
-        checkin1_pos = first_or_empty(
-            Team.objects.filter(checkin_pretime_1__gte=timezone_now)
-            .order_by('checkin_pretime_1')
-        )
+        # checkin2_now = first_or_empty(
+        #     Team.objects.filter(checkin_pretime_2__lt=timezone_now)
+        #     .order_by('-checkin_pretime_2')
+        # )
 
-        checkin1_pos2 = nth_or_empty(
-            Team.objects.filter(checkin_pretime_1__gte=timezone_now)
-            .order_by('checkin_pretime_1'),
-            1
-        )
+        # checkin2_pos = first_or_empty(
+        #     Team.objects.filter(checkin_pretime_2__gte=timezone_now)
+        #     .order_by('checkin_pretime_2')
+        # )
 
-        # 前のイベントが無い場合 → 次のイベントを使う
-        if checkin1_now.team_name == "終了":   # empty_team の場合
-            checkin1_now = checkin1_pos
-            checkin1_pos = checkin1_pos2
-            checkin1_pos2 = nth_or_empty(
-                Team.objects.filter(checkin_pretime_1__gte=timezone_now)
-                .order_by('checkin_pretime_1'),
-                2
-            )
-
-
-        # ====== checkin2 ======
-        checkin2_now = first_or_empty(
-            Team.objects.filter(checkin_pretime_2__lt=timezone_now)
-            .order_by('-checkin_pretime_2')
-        )
-
-        checkin2_pos = first_or_empty(
-            Team.objects.filter(checkin_pretime_2__gte=timezone_now)
-            .order_by('checkin_pretime_2')
-        )
-
-        checkin2_pos2 = nth_or_empty(
-            Team.objects.filter(checkin_pretime_2__gte=timezone_now)
-            .order_by('checkin_pretime_2'),
-            1
-        )
-
-                # 前のイベントが無い場合 → 次のイベントを使う
-        if checkin2_now.team_name == "終了":   # empty_team の場合
-            checkin2_now = checkin2_pos
-            checkin2_pos = checkin2_pos2
-            checkin2_pos2 = nth_or_empty(
-                Team.objects.filter(checkin_pretime_2__gte=timezone_now)
-                .order_by('checkin_pretime_2'),
-                2
-            )
-
+        # checkin2_pos2 = nth_or_empty(
+        #     Team.objects.filter(checkin_pretime_2__gte=timezone_now)
+        #     .order_by('checkin_pretime_2'),
+        #     1
+        # )
 
         if (onstage_now is None):
             onstage_now = onstage_pos
@@ -168,12 +129,12 @@ class IndexView(View):
             'onstage_now': onstage_now,
             'onstage_pos': onstage_pos,
             'onstage_pos2': onstage_pos2,
-            'checkin1_now': checkin1_now,
-            'checkin1_pos': checkin1_pos,
-            'checkin1_pos2': checkin1_pos2,
-            'checkin2_now': checkin2_now,
-            'checkin2_pos': checkin2_pos,
-            'checkin2_pos2': checkin2_pos2,
+            # 'checkin1_now': checkin1_now,
+            # 'checkin1_pos': checkin1_pos,
+            # 'checkin1_pos2': checkin1_pos2,
+            # 'checkin2_now': checkin2_now,
+            # 'checkin2_pos': checkin2_pos,
+            # 'checkin2_pos2': checkin2_pos2,
             'now': timezone_now,
             'report': report,
         }
