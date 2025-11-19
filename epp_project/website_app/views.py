@@ -25,40 +25,7 @@ class IndexView(View):
         .order_by('onstage_time')                   # 時刻が近いもの（昇順）
         .first()
     )
-    onstage_pos2 = (
-        Team.objects.filter(onstage_time__gte=timezone_now)
-        .order_by('onstage_time')[1]
-    )
 
-    checkin1_now = (
-        Team.objects.filter(checkin_pretime_1__lt=timezone_now)
-        .order_by('-checkin_pretime_1')
-        .first()
-    )
-    checkin1_pos = (
-        Team.objects.filter(checkin_pretime_1__gte=timezone_now)
-        .order_by('checkin_pretime_1')
-        .first()
-    )
-    checkin1_pos2 = (
-        Team.objects.filter(checkin_pretime_1__gte=timezone_now)
-        .order_by('checkin_pretime_1')[1]
-    )
-
-    checkin2_now = (
-        Team.objects.filter(checkin_pretime_2__lt=timezone_now)
-        .order_by('-checkin_pretime_2')
-        .first()
-    )
-    checkin2_pos = (
-        Team.objects.filter(checkin_pretime_2__gte=timezone_now)
-        .order_by('checkin_pretime_2')
-        .first()
-    )
-    checkin2_pos2 = (
-        Team.objects.filter(checkin_pretime_2__gte=timezone_now)
-        .order_by('checkin_pretime_2')[1]
-    )
 
     # リハ + 本番 合計分数
     total_minutes = onstage_now.duration_reha + onstage_now.duration_onst
@@ -112,16 +79,9 @@ class IndexView(View):
     context = {
         'progress_info':progress_info,
         'onstage_now': onstage_now,
-        'onstage_pos': onstage_pos,
-        'onstage_pos2': onstage_pos2,
-        'checkin1_now': checkin1_now,
-        'checkin1_pos': checkin1_pos,
-        'checkin1_pos2': checkin1_pos2,
-        'checkin2_now': checkin2_now,
-        'checkin2_pos': checkin2_pos,
-        'checkin2_pos2': checkin2_pos2,
         'now': timezone_now,
         'report': report,
+        'team_list': Team.objects.order_by('onstage_time'),
     }
     
     return render(request, 'echoes/index.html', context)
@@ -188,9 +148,44 @@ class TeamUpdateView(LoginRequiredMixin, PermissionRequiredMixin, View):
         return redirect('website_app:team_list')
       return render(request, 'echoes/team_update.html', {'form': form})
 
+class TeamPublicDetailView(DetailView):
+    model = Team
+    template_name = 'echoes/team_detail_pub.html'
+    context_object_name = 'team'
+    pk_url_kwarg = 'id'  # URLのパラメータ名が pk でない場合に指定
+
+    EXCLUDE_FIELDS = [
+        'team_ninzu',
+        'checkin_postime_1',
+        'checkin_postime_2',
+        'onstage_time_acc',
+        'onstage_tien_acc',
+        'team_rep',
+        'team_rep_mail',
+        'team_rep_tel',
+        'team_equip',
+        'file_form',
+        'file_stage',
+        'note']
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        team = context.pop("team")  # ★ 完全に削除（テンプレートに渡らない）
+
+        public_data = {}
+        for field in team._meta.get_fields():
+            if field.name not in self.EXCLUDE_FIELDS:
+                public_data[field.name] = getattr(team, field.name)
+
+        context["team"] = public_data  # team を public_data に差し替える
+
+        return context
+
 index = IndexView.as_view()
 team_initial_reg = TeamCreateView.as_view()
 team_list = TeamListView.as_view()
 team_update = TeamUpdateView.as_view()
 team_checkin = TeamCheckinView.as_view()
 team_detail = TeamDetailView.as_view()
+team_detail_pub = TeamPublicDetailView.as_view()

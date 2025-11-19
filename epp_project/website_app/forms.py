@@ -21,13 +21,13 @@ class TeamForm(ModelForm):
          'checkin_postime_2',
          'onstage_time_acc',
          'onstage_tien_acc',
+         'team_rep',
          'team_rep_mail',
          'team_rep_tel',
          'team_equip',
          'file_artpic',
          'file_form',
          'file_stage',
-         'team_rep',
          'note']
 
    def __init__(self, *args, **kwargs):
