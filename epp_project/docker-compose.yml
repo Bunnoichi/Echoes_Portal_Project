@@ -1,0 +1,41 @@
+version: '3.8'
+
+services:
+  web:
+    environment:
+      DJANGO_SECRET_KEY: 
+      POSTGRES_DB: epp_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres   # ← ここが超重要
+    build: .
+    ports:
+      - "8000:8000"
+    command: gunicorn epp_project.wsgi:application --bind 0.0.0.0:8000
+    expose:
+      - "8000"
+    volumes:
+      - static_volume:/code/static
+    depends_on:
+      - db
+
+  nginx:
+    build: ./nginx
+    ports:
+      - "80:80"
+    volumes:
+      - static_volume:/code/static
+    depends_on:
+      - web
+
+  db:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: epp_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
+  static_volume:
