@@ -138,8 +138,9 @@ class TeamCheckinView(PermissionRequiredMixin, LoginRequiredMixin, View):
 
   def get(self, request, id):
       wanted_field = ['onstage_time_acc', 'onstage_tien_acc', 'checkin_postime_1', 'checkin_postime_2']
+      team_name = get_object_or_404(Team, id=id).team_name
       form = TeamForm(instance=get_object_or_404(Team, id=id), view_type='default')
-      return render(request, 'echoes/team_checkin.html', {'form': form, 'wanted_field':wanted_field})
+      return render(request, 'echoes/team_checkin.html', {'form': form, 'wanted_field':wanted_field, 'team_name': team_name})
   
   def post(self, request, id):
       form = TeamForm(request.POST, instance=get_object_or_404(Team, id=id))
@@ -162,8 +163,9 @@ class TeamUpdateView(PermissionRequiredMixin, LoginRequiredMixin, View):
   permission_required = 'website_app.update_information'
   
   def get(self, request, id):
+      team_name = get_object_or_404(Team, id=id).team_name
       form = TeamForm(instance=get_object_or_404(Team, id=id), view_type='default')
-      return render(request, 'echoes/team_update.html', {'form': form})
+      return render(request, 'echoes/team_update.html', {'form': form, 'team_name': team_name})
 
   def post(self, request, id):
       form = TeamForm(request.POST, request.FILES, instance=get_object_or_404(Team, id=id))

@@ -20,7 +20,7 @@
    <!-- ナビゲーションバー -->
    <nav class="navbar navbar-expand-lg border-bottom mb-4">
       <div class="container-fluid">
-         <a class="navbar-brand" href="{% url 'website_app:index' %}">⭐️ポータルサイト🎄</a>
+         <a class="navbar-brand" href="{% url 'website_app:index' %}">⭐️St.E.P. Web🎄</a>
 
          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
          <span class="navbar-toggler-icon"></span>
@@ -41,10 +41,10 @@
                   <a class="nav-link" href="{% url 'website_app:team_list' %}">打刻一覧</a>
                </li>
                <li class="nav-item">
-                  <a class="nav-link" href="{% url 'report:report_reg' %}">報告入力</a>
+                  <a class="nav-link" href="{% url 'report:report_reg' %}">スピークス入力</a>
                </li>
                <li class="nav-item">
-                  <a class="nav-link" href="{% url 'report:report_list' %}">報告一覧</a>
+                  <a class="nav-link" href="{% url 'report:report_list' %}">スピークス一覧</a>
                </li>
                <li class="nav-item">
                   <a class="nav-link" href="{% url 'website_app:team_initial_reg' %}">初期登録</a>
@@ -92,15 +92,15 @@
       <div class="menu-buttons mb-4 d-grid gap-2 d-md-flex">
          <a href="{% url 'status:index' %}" class="btn btn-primary btn-lg">現在の状況確認</a>
          <a href="{% url 'website_app:team_list' %}" class="btn btn-info btn-lg">団体一覧</a>
-         <a href="{% url 'report:report_reg' %}" class="btn btn-warning btn-lg">報告入力</a>
-         <a href="{% url 'report:report_list' %}" class="btn btn-success btn-lg">報告一覧</a>
+         <a href="{% url 'report:report_reg' %}" class="btn btn-warning btn-lg">スピークス作成</a>
+         <a href="{% url 'report:report_list' %}" class="btn btn-success btn-lg">スピークス一覧</a>
          <a href="{% url 'website_app:team_initial_reg' %}" class="btn btn-secondary btn-lg">初期登録</a>
       </div>
    </div>
 
    <!-- フッター -->
    <footer>
-      <div>© スターライトエコーズ実行委委員会 <br>All Rights Reserved.</div>
+      <div>Starlight Echoes Portal Web<br>© スターライトエコーズ実行委委員会 <br>All Rights Reserved.</div>
    </footer>
 
 

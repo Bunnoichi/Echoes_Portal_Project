@@ -1,43 +1,151 @@
 {% extends 'base/echoes_base.html' %}
 {% block page_title %}
-<h1 class="page-title">打刻一覧</h1>
+<h1 class="page-title">List: Check In</h1>
 {% endblock %}
 {% block body %}
 
+<style>
+   /* --- カードの共通調整 --- */
+   .team-card {
+   border-radius: 0.9rem;
+   }
 
-   <div class="table-responsive">
+   /* --- テーブル見やすく調整 --- */
+   th {
+   white-space: nowrap;
+   }
+
+   /* --- ダークモード用色調整 --- */
+   :root[data-bs-theme="dark"] .team-card {
+   background-color: #2d2d2d;
+   border-color: #444;
+   }
+
+   :root[data-bs-theme="dark"] tbody tr th {
+   color: #ddd;
+   }
+
+   :root[data-bs-theme="dark"] tbody tr td {
+   color: #e8e8e8;
+   }
+
+   :root[data-bs-theme="dark"] .table-header {
+   background-color: #3c3c3c !important;
+   color: #fff;
+   border-color: #555;
+   }
+
+   /* ライトモード */
+   :root[data-bs-theme="light"] .btn-outline-safe {
+   color: #444;
+   border-color: #888;
+   }
+
+   :root[data-bs-theme="light"] .btn-outline-safe:hover {
+   color: #fff;
+   background-color: #666;
+   border-color: #666;
+   }
+
+   /* ダークモード */
+   :root[data-bs-theme="dark"] .btn-outline-safe {
+   color: #ddd;
+   border-color: #aaa;
+   }
+
+   :root[data-bs-theme="dark"] .btn-outline-safe:hover {
+   color: #000;
+   background-color: #ccc;
+   border-color: #ccc;
+   }
+</style>
+
+{% for team in team_list %}
+<div class="card mb-4 shadow-sm">
+  <div class="card-body">
+
+    <!-- 団体名 -->
+    <h4 class="card-title fw-bold">{{ team.team_name }}</h4>
+
+    <!-- 説明文 -->
+    <p class="text-muted mb-3">
+      {{ team.team_desc }}
+    </p>
+
+    <!-- 人数 -->
+    {% if team.team_ninzu %}
+      <p class="mb-3">
+        <span class="badge bg-primary bg-opacity-75">
+          出演人数：{{ team.team_ninzu }} 人
+        </span>
+      </p>
+    {% endif %}
+
+    <!-- テーブル -->
+    <div class="table-responsive">
       <table class="table">
-         <thead>
-            <tr>
-               <th scope="col">No.</th>
-               <th scope="col">団体名</th>
-               <th scope="col"></th>
-               <th scope="col">受付時刻</th>
-               <th scope="col">待機時刻</th>
-               <th scope="col">出演時刻</th>
-            </tr>
-         </thead>
-         <tbody>
-            {% for team in team_list %}
-               <tr>
-                  <th scope="row">{{ forloop.counter }}</th>
-                  <td><a href="{% url 'website_app:team_detail' team.id %}" class="card-link">{{ team.team_name }}</a></td>
-                  <td>定刻</td>
-                  <td>{{ team.checkin_pretime_1|date:"m/j- H:i" }}</td>
-                  <td>{{ team.checkin_pretime_2|date:"m/j- H:i" }}</td>
-                  <td>{{ team.onstage_time|date:"m/j- H:i" }}</td>
-               </tr>
-               <tr>
-                  <th scope="row"></th>
-                  <td></td>
-                  <td><a href="{% url 'website_app:team_checkin' team.id %}" class="card-link">打刻</a></td>
-                  <td>{{ team.checkin_postime_1|date:"m/j- H:i" }}</td>
-                  <td>{{ team.checkin_postime_2|date:"m/j- H:i" }}</td>
-                  <td>{{ team.onstage_time_acc|date:"m/j- H:i" }}</td>
-               </tr>
-            {% endfor %}
-         </tbody>
+        <thead>
+          <tr>
+            <th scope="col">項目</th>
+            <th scope="col">定刻</th>
+            <th scope="col">打刻</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row" class="fw-semibold">受付</th>
+            <td>{{ team.checkin_pretime_1 }}</td>
+            <td>
+              {% if team.checkin_postime_1 %}
+                {{ team.checkin_postime_1 }}
+              {% else %}
+                <span class="text-muted">未打刻</span>
+              {% endif %}
+            </td>
+          </tr>
+
+          <tr>
+            <th scope="row" class="fw-semibold">控室</th>
+            <td>{{ team.checkin_pretime_2 }}</td>
+            <td>
+              {% if team.checkin_postime_2 %}
+                {{ team.checkin_postime_2 }}
+              {% else %}
+                <span class="text-muted">未打刻</span>
+              {% endif %}
+            </td>
+          </tr>
+
+          <tr>
+            <th scope="row" class="fw-semibold">出演</th>
+            <td>{{ team.onstage_time }}</td>
+            <td>
+              {% if team.onstage_time_acc %}
+                {{ team.onstage_time_acc }}
+              {% else %}
+                <span class="text-muted">未打刻</span>
+              {% endif %}
+            </td>
+          </tr>
+        </tbody>
       </table>
-   </div>
+    </div>
+
+    <!-- ボタン -->
+    <div class="d-flex gap-2">
+      <a href="{% url 'website_app:team_checkin' team.id %}"
+         class="btn btn-primary flex-fill">
+        打刻
+      </a>
+
+      <a href="{% url 'website_app:team_detail' team.id %}"
+         class="btn btn-outline-safe flex-fill">
+      団体詳細
+      </a>
+    </div>
+
+  </div>
+</div>
+{% endfor %}
 
 {% endblock %}

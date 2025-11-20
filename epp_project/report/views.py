@@ -28,7 +28,7 @@ class ReportListView(PermissionRequiredMixin, LoginRequiredMixin, View):
   permission_required = 'view_reports'
 
   def get(self, request):
-      report_list = Report.objects.order_by('created_at')
+      report_list = Report.objects.order_by('-created_at')
       return render(request, 'report/report_list.html', {'report_list': report_list})
 
 report_reg = ReportCreateView.as_view()

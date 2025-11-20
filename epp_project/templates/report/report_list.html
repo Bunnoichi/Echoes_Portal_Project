@@ -1,32 +1,137 @@
 {% extends 'base/echoes_base.html' %}
 {% block page_title %}
-<h1 class="page-title">報告一覧</h1>
+<h1 class="page-title">List: Speaks</h1>
 {% endblock %}
 {% block body %}
 
-   <div class="table-responsive">
-      <table class="table">
-         <thead>
-            <tr>
-               <th scope="col">報告時刻</th>
-               <th scope="col">発生場所</th>
-               <th scope="col">内容</th>
-               <th scope="col">公開設定</th>
-               <th scope="col">報告者</th>
-            </tr>
-         </thead>
-         <tbody>
-            {% for report in report_list %}
-               <tr>
-                  <td>{{ report.created_at|date:"n月j日 H:i" }}</td>
-                  <td>{{ report.repo_plac }}</td>
-                  <td>{{ report.repo_cont }}</td>
-                  <td>{{ report.repo_publicity }}</td>
-                  <td>{{ report.repo_pter }}</td>
-               </tr>
-            {% endfor %}
-         </tbody>
-      </table>
-   </div>
+
+<style>
+   /* =========================================================
+      ベースカラー（ライト／ダーク両対応）
+   ========================================================= */
+
+   :root {
+      --card-bg-light: #ffffff;
+      --card-bg-dark: #1e1e1e;
+
+      --text-muted-light: #6c757d;
+      --text-muted-dark: #adb5bd;
+
+      /* 枠の色（既存色） */
+      --pub-public-color: #dc3545;
+      --pub-only-staff-color: #fd7e14;
+      --pub-private-color: #8f8f8f;
+      --staff-tweet-color: #0d6efd;
+   }
+
+   /* ライトモード */
+   [data-bs-theme="light"] .report-item {
+      background: var(--card-bg-light);
+      box-shadow: 0 1px 3px rgba(0,0,0,.08);
+      color: #212529;
+   }
+   [data-bs-theme="light"] .report-meta {
+      color: var(--text-muted-light);
+   }
+
+   /* ダークモード */
+   [data-bs-theme="dark"] .report-item {
+      background: var(--card-bg-dark);
+      box-shadow: 0 1px 3px rgba(255,255,255,.08);
+      color: #f8f9fa;
+   }
+   [data-bs-theme="dark"] .report-meta {
+      color: var(--text-muted-dark);
+   }
+
+   /* =========================================================
+      公開設定ごとの色
+   ========================================================= */
+
+   .pub-public       { border-left: 6px solid var(--pub-public-color); }
+   .pub-only-staff   { border-left: 6px solid var(--pub-only-staff-color); }
+   .pub-private      { border-left: 6px solid var(--pub-private-color); }
+   .staff-tweet      { border-left: 6px solid var(--staff-tweet-color) !important; }
+
+   .pub-public_badge       { background: var(--pub-public-color); }
+   .pub-only-staff_badge   { background: var(--pub-only-staff-color); }
+   .pub-private_badge      { background: var(--pub-private-color); }
+   .staff-tweet_badge      { background: var(--staff-tweet-color) !important; }
+
+   /* =========================================================
+      レイアウト系
+   ========================================================= */
+
+   .report-item {
+      padding: 0.75rem 1rem;
+      border-radius: .5rem;
+      margin-bottom: .6rem;
+      transition: background 0.2s ease, color 0.2s ease;
+   }
+
+   .report-content { font-size: 0.95rem; }
+   .report-meta { font-size: 0.75rem; }
+</style>
+
+<div class="container">
+
+    {% for report in report_list %}
+        {% comment %}
+            表示クラス決定ロジック
+
+            public          → pub-public
+            private         → pub-private
+            only_staff:
+                tweet=True  → staff-tweet
+                tweet=False → pub-only-staff
+        {% endcomment %}
+
+        <div class="
+            report-item
+            {% if report.repo_publicity == 'public' %}
+                pub-public
+            {% elif report.repo_publicity == 'private' %}
+                pub-private
+            {% elif report.repo_publicity == 'only_staff' %}
+                {% if report.repo_tweet %}
+                    staff-tweet
+                {% else %}
+                    pub-only-staff
+                {% endif %}
+            {% endif %}
+        ">
+
+            <div class="report-meta mb-2">
+               {% if report.repo_publicity == "public" %}
+                        <span class="badge pub-public_badge">全体向け</span>
+               {% elif report.repo_publicity == "private" %}
+                        <span class="badge pub-private_badge">非公開</span>
+               {% elif report.repo_publicity == "only_staff" %}
+                  <!-- 追加表示例：ツイート投稿かどうか -->
+                     {% if report.repo_tweet %}
+                        <span class="badge staff-tweet_badge">Tweet投稿</span>
+                     {% else %}
+                        <span class="badge pub-only-staff_badge">スタッフ向け</span>
+                     {% endif %}
+               {% endif %}
+            </div>
+
+            <div class="report-content mb-1">
+                {{ report.repo_cont }}
+            </div>
+
+            <div class="report-meta d-flex justify-content-between">
+                <div>
+                    投稿者：{{ report.repo_pter }}
+                </div>
+                <div>
+                    {{ report.created_at }}
+                </div>
+            </div>
+
+
+        </div>
+    {% endfor %}
+</div>
 
 {% endblock %}

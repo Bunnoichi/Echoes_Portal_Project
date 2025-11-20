@@ -2,8 +2,9 @@
 
 {% block body %}
 <div class="container py-5 text-center">
-    <h1 class="display-4 text-danger">403 Forbidden</h1>
-    <p>このページにアクセスする権限がありません。</p>
+    <h1 class="display-4 text-danger fw-bold">403 Forbidden</h1>
+    <p>このページにアクセスする権限はありません。</p>
+    <p>詳細は本委員会システム担当者までお問い合わせください。</p>
     <a href="{% url 'website_app:index' %}" class="btn btn-primary mt-3">トップへ戻る</a>
 </div>
 {% endblock %}

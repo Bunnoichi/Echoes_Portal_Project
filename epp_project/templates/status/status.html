@@ -1,38 +1,69 @@
 {% extends 'base/echoes_base.html' %}
 {% block page_title %}
-<h1 class="page-title">現在の状況</h1>
+<h1 class="page-title">Status: Present</h1>
 {% endblock %}
 {% block body %}
 
-<h2 class="section-title">アナウンス</h2>
+<h2 class="section-title">スピークス</h2>
 
 <div class="container-fluid py-3">
 
-  {# --- 全体向けメッセージ --- #}
-  <div class="alert alert-primary shadow-sm mb-4" role="alert">
+  {# --- 全体向けメッセージ（赤系） --- #}
+  <div class="report-item pub-public">
     <h5 class="mb-1 fw-bold">📢 全体アナウンス</h5>
-    <div class="mb-2">{{ report.repo_public.repo_cont|linebreaksbr }}</div>
 
-    <div class="small text-muted">
-      投稿日：{{ report.repo_public.created_at|date:"Y-m-d H:i" }} / 
-      発言者：{{ report.repo_public.repo_pter }}
+    <div class="report-content mb-1">
+      {{ report.repo_public.repo_cont|linebreaksbr }}
     </div>
 
+    <div class="report-meta d-flex justify-content-between">
+        <div>
+            投稿者：{{ report.repo_public.repo_pter }}
+        </div>
+        <div>
+            {{ report.repo_public.created_at }}
+        </div>
+    </div>
   </div>
 
-  {# --- スタッフ限定 --- #}
-  {% if user.is_authenticated %}
-    <div class="alert alert-warning shadow-sm mb-4" role="alert">
-      <h5 class="mb-1 fw-bold">🛠 スタッフ向け連絡</h5>
-      <div class="mb-2">{{ report.repo_staff.repo_cont|linebreaksbr }}</div>
 
-      <div class="small text-muted">
-        投稿日：{{ report.repo_staff.created_at|date:"Y-m-d H:i" }} / 
-        発言者：{{ report.repo_staff.repo_pter }}
+  {# --- スタッフ限定（オレンジ系） --- #}
+  {% if user.is_authenticated %}
+    <div class="report-item pub-only-staff">
+        <h5 class="mb-1 fw-bold">🛠 スタッフ向け連絡</h5>
+
+        <div class="report-content mb-1">
+          {{ report.repo_staff.repo_cont|linebreaksbr }}
+        </div>
+
+        <div class="report-meta d-flex justify-content-between">
+            <div>
+                投稿者：{{ report.repo_staff.repo_pter }}
+            </div>
+            <div>
+                {{ report.repo_staff.created_at }}
+            </div>
+        </div>
+    </div>
+
+    {# --- Tweet 用連絡（青系） --- #}
+    <div class="report-item staff-tweet">
+      <h6 class="mb-1 fw-bold">🐦 スタッフつぶやき 🙄</h6>
+
+      <div class="report-content mb-1">
+        {{ report.repo_tweet.repo_cont|linebreaksbr }}
+      </div>
+
+      <div class="report-meta d-flex justify-content-between">
+        <div>
+            投稿者：{{ report.repo_tweet.repo_pter }}
+        </div>
+        <div>
+            {{ report.repo_tweet.created_at }}
+        </div>
       </div>
     </div>
   {% endif %}
-
 </div>
 
 

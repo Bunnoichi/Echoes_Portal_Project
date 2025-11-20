@@ -1,6 +1,6 @@
 {% extends 'base/echoes_base.html' %}
 {% block page_title %}
-<h1 class="page-title">トップページ</h1>
+<h1 class="page-title">Top Page</h1>
 {% endblock %}
 {% block body %}
 
@@ -47,56 +47,128 @@
   :root[data-bs-theme="dark"] .team-overlay {
     background: linear-gradient(to top, rgba(0,0,0,0.45), rgba(0,0,0,0));
   }
+  /* ===========================
+    トップページイントロ
+    =========================== */
+
+  .page-home-intro-header {
+    font-size: 1.9rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: var(--bs-emphasis-color);
+  }
+
+  .page-home-intro-header .site-name {
+    color: var(--bs-primary);
+    font-weight: 800;
+  }
+
+  /* 補足説明文 */
+  .page-home-intro-sub {
+    margin: 0.5rem;
+    font-size: 1rem;
+    line-height: 1.6;
+    color: var(--bs-secondary-color);
+    max-width: 800px;
+  }
+
+  /* --- ダークモード対応 --- */
+  :root[data-bs-theme="dark"] .page-home-intro-header .site-name {
+    color: var(--bs-info); /* 暗い背景でも強調が見える色 */
+  }
+
+  :root[data-bs-theme="dark"] .page-home-intro-sub {
+    color: var(--bs-secondary-color);
+  }
+
+
 </style>
 
-<div class="greeting-box">
-    {% if user.is_authenticated %}
-    {{ user.username }} さん、こんばんは！
-    {% else %}
-    ゲストさん、こんばんは！
-    {% endif %}
+
+<div class="page-home-intro mb-4">
+
+  <!-- インライン見出し -->
+  <div class="page-home-intro-header"><small>
+      Welcome to </small><span class="site-name">St.E.P.Web</span>
+  </div>
+
+  <!-- 補足説明 -->
+  <div class="page-home-intro-sub">
+      St.E.P.Webは「STARLIGHT☆ECHOES in 2025 SENDAI光のページェント」の
+      関係者向けポータルサイトです！
+  </div>
+  <div class="page-home-intro-sub">
+    出演団体の情報や定刻の確認、進行状況、各種投稿などが行えます。ユーザー登録をする際は、本委員会システム担当者までご一報ください。
+  </div>
+
 </div>
 
-<h2 class="section-title">アナウンス</h2>
+{% if user.is_authenticated %}
+  <div class="alert alert-primary shadow-sm top-report top-report-tweet" role="alert">
+    <h6 class="mb-1 fw-bold">{{ user.username }} さん！お疲れ様です☺️</h6>
+  </div>
+{% endif %}
+
+<h2 class="section-title">スピークス</h2>
 
 <div class="container-fluid py-3">
 
-  {# --- 全体向けメッセージ --- #}
-  <div class="alert alert-primary shadow-sm mb-4" role="alert">
-    <h5 class="mb-1 fw-bold">📢 全体アナウンス</h5>
-    <div class="mb-2">{{ report.repo_public.repo_cont|linebreaksbr }}</div>
+ {# --- 全体向けメッセージ（赤系） --- #}
+<div class="report-item pub-public">
+  <h5 class="mb-1 fw-bold">📢 全体アナウンス</h5>
 
-    <div class="small text-muted">
-      投稿日：{{ report.repo_public.created_at|date:"Y-m-d H:i" }} / 
-      発言者：{{ report.repo_public.repo_pter }}
-    </div>
-
+  <div class="report-content mb-1">
+    {{ report.repo_public.repo_cont|linebreaksbr }}
   </div>
 
-  {# --- スタッフ限定 --- #}
-  {% if user.is_authenticated %}
-    <div class="alert alert-warning shadow-sm mb-4" role="alert">
-      <h5 class="mb-1 fw-bold">🛠 スタッフ向け連絡</h5>
-      <div class="mb-2">{{ report.repo_staff.repo_cont|linebreaksbr }}</div>
-
-      <div class="small text-muted">
-        投稿日：{{ report.repo_staff.created_at|date:"Y-m-d H:i" }} / 
-        発言者：{{ report.repo_staff.repo_pter }}
+  <div class="report-meta d-flex justify-content-between">
+      <div>
+          投稿者：{{ report.repo_public.repo_pter }}
       </div>
+      <div>
+          {{ report.repo_public.created_at }}
+      </div>
+  </div>
+</div>
+
+
+{# --- スタッフ限定（オレンジ系） --- #}
+{% if user.is_authenticated %}
+  <div class="report-item pub-only-staff">
+    <h5 class="mb-1 fw-bold">🛠 スタッフ向け連絡</h5>
+
+    <div class="report-content mb-1">
+      {{ report.repo_staff.repo_cont|linebreaksbr }}
     </div>
 
-    {# --- Tweet 用連絡 --- #}
-    <div class="alert alert-secondary shadow-sm" role="alert">
-      <h6 class="mb-1 fw-bold">🐦 スタッフつぶやき 🙄</h6>
-      <div class="mb-2">{{ report.repo_tweet.repo_cont|linebreaksbr }}</div>
-
-      <div class="small text-muted">
-        投稿日：{{ report.repo_tweet.created_at|date:"Y-m-d H:i" }} / 
-        発言者：{{ report.repo_tweet.repo_pter }}
-      </div>
+    <div class="report-meta d-flex justify-content-between">
+        <div>
+            投稿者：{{ report.repo_staff.repo_pter }}
+        </div>
+        <div>
+            {{ report.repo_staff.created_at }}
+        </div>
     </div>
-  {% endif %}
+  </div>
 
+  {# --- Tweet 用連絡（青系） --- #}
+  <div class="report-item staff-tweet">
+    <h6 class="mb-1 fw-bold">🐦 スタッフつぶやき 🙄</h6>
+
+    <div class="report-content mb-1">
+      {{ report.repo_tweet.repo_cont|linebreaksbr }}
+    </div>
+
+    <div class="report-meta d-flex justify-content-between">
+        <div>
+            投稿者：{{ report.repo_tweet.repo_pter }}
+        </div>
+        <div>
+            {{ report.repo_tweet.created_at }}
+        </div>
+    </div>
+  </div>
+{% endif %}
 </div>
 
 

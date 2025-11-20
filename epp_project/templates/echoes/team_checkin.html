@@ -1,7 +1,7 @@
 {% extends 'base/echoes_base.html' %}
 {% load widget_tweaks %}
 {% block page_title %}
-<h1 class="page-title">出演団体の打刻</h1>
+<h1 class="page-title">Check In: {{ team_name }}</h1>
 {% endblock %}
 {% block body %}
 <style>
@@ -63,7 +63,8 @@
   const fields = [
     "onstage_time_acc",
     "checkin_postime_1",
-    "checkin_postime_2"
+    "checkin_postime_2",
+    "onstage_tien_acc"
   ];
 
   fields.forEach(name => {

@@ -124,15 +124,6 @@ animation: blink-soft 2s infinite;
   color: var(--bs-emphasis-color);  /* Bootstrap標準の強調カラー */
 }
 
-/* あいさつ文の装飾 */
-.greeting-box {
-   padding: 0.6rem 1rem;
-   border-left: 4px solid var(--bs-primary);
-   margin-bottom: 1.5rem;
-   font-size: 1.1rem;
-   background: var(--bs-secondary-bg);
-   border-radius: 4px;
-}
    /* ------------------------------
       メニューのボタン群
 ------------------------------ */
@@ -171,4 +162,124 @@ footer a:hover {
 :root[data-bs-theme="dark"] .greeting-box {
    background: #2a2a2a;
    border-left-color: #6ea8fe;
+}
+
+
+
+/* =========================================================
+   ベースカラー（ライト／ダーク両対応）
+========================================================= */
+
+:root {
+   --card-bg-light: #ffffff;
+   --card-bg-dark: #1e1e1e;
+
+   --text-muted-light: #6c757d;
+   --text-muted-dark: #adb5bd;
+
+   /* 枠の色（既存色） */
+   --pub-public-color: #dc3545;
+   --pub-only-staff-color: #fd7e14;
+   --pub-private-color: #8f8f8f;
+   --staff-tweet-color: #0d6efd;
+}
+
+/* ライトモード */
+[data-bs-theme="light"] .report-item {
+   background: var(--card-bg-light);
+   box-shadow: 0 1px 3px rgba(0,0,0,.08);
+   color: #212529;
+}
+[data-bs-theme="light"] .report-meta {
+   color: var(--text-muted-light);
+}
+
+/* ダークモード */
+[data-bs-theme="dark"] .report-item {
+   background: var(--card-bg-dark);
+   box-shadow: 0 1px 3px rgba(255,255,255,.08);
+   color: #f8f9fa;
+}
+[data-bs-theme="dark"] .report-meta {
+   color: var(--text-muted-dark);
+}
+
+/* =========================================================
+   公開設定ごとの色
+========================================================= */
+
+.pub-public       { border-left: 6px solid var(--pub-public-color); }
+.pub-only-staff   { border-left: 6px solid var(--pub-only-staff-color); }
+.pub-private      { border-left: 6px solid var(--pub-private-color); }
+.staff-tweet      { border-left: 6px solid var(--staff-tweet-color) !important; }
+
+.pub-public_badge       { background: var(--pub-public-color); }
+.pub-only-staff_badge   { background: var(--pub-only-staff-color); }
+.pub-private_badge      { background: var(--pub-private-color); }
+.staff-tweet_badge      { background: var(--staff-tweet-color) !important; }
+
+/* =========================================================
+   レイアウト系
+========================================================= */
+
+.report-item {
+   padding: 0.75rem 1rem;
+   border-radius: .5rem;
+   margin-bottom: .6rem;
+   transition: background 0.2s ease, color 0.2s ease;
+}
+
+.report-content { font-size: 0.95rem; }
+.report-meta { font-size: 0.75rem; }
+
+
+/* =========================================================
+   h5 見出し：公開種別ごとに色を変える
+========================================================= */
+
+/* --- 全体向け（赤） --- */
+.report-item.pub-public h5 {
+   font-weight: 700;
+   margin-bottom: 0.5rem;
+   padding-bottom: 0.3rem;
+   color: #dc3545;
+   border-bottom: 1px solid rgba(220, 53, 69, 0.35);
+}
+
+[data-bs-theme="dark"] .report-item.pub-public h5 {
+   color: #ff6b81;
+   border-color: rgba(255, 107, 129, 0.45);
+}
+
+/* --- スタッフ向け（オレンジ） --- */
+.report-item.pub-only-staff h5 {
+   font-weight: 700;
+   margin-bottom: 0.5rem;
+   padding-bottom: 0.3rem;
+   color: #fd7e14;
+   border-bottom: 1px solid rgba(253, 126, 20, 0.35);
+}
+
+[data-bs-theme="dark"] .report-item.pub-only-staff h5 {
+   color: #ff9f4d;
+   border-color: rgba(255, 159, 77, 0.45);
+}
+
+.report-item h6 {
+   /* 見出し共通スタイル */
+   font-weight: 600;
+   margin-bottom: 0.5rem;
+   padding-bottom: 0.25rem;
+   border-bottom: 1px solid transparent;
+   transition: color .2s ease, border-color .2s ease;
+
+   /* すべての種別に関係なく青系に固定 */
+   color: #0d6efd;
+   border-color: rgba(13, 110, 253, 0.35);
+}
+
+/* ダークモードは少し明るめの青に調整 */
+[data-bs-theme="dark"] .report-item h6 {
+   color: #6ea8fe;
+   border-color: rgba(110, 168, 254, 0.45);
 }
