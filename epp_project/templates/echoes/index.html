@@ -113,62 +113,62 @@
 
 <div class="container-fluid py-3">
 
- {# --- 全体向けメッセージ（赤系） --- #}
-<div class="report-item pub-public">
-  <h5 class="mb-1 fw-bold">📢 全体アナウンス</h5>
-
-  <div class="report-content mb-1">
-    {{ report.repo_public.repo_cont|linebreaksbr }}
-  </div>
-
-  <div class="report-meta d-flex justify-content-between">
-      <div>
-          投稿者：{{ report.repo_public.repo_pter }}
-      </div>
-      <div>
-          {{ report.repo_public.created_at }}
-      </div>
-  </div>
-</div>
-
-
-{# --- スタッフ限定（オレンジ系） --- #}
-{% if user.is_authenticated %}
-  <div class="report-item pub-only-staff">
-    <h5 class="mb-1 fw-bold">🛠 スタッフ向け連絡</h5>
+  {# --- 全体向けメッセージ（赤系） --- #}
+  <div class="report-item pub-public">
+    <h5 class="mb-1 fw-bold">📢 全体アナウンス</h5>
 
     <div class="report-content mb-1">
-      {{ report.repo_staff.repo_cont|linebreaksbr }}
+      {{ report.repo_public.repo_cont|linebreaksbr }}
     </div>
 
     <div class="report-meta d-flex justify-content-between">
         <div>
-            投稿者：{{ report.repo_staff.repo_pter }}
+            投稿者：{{ report.repo_public.repo_pter }}
         </div>
         <div>
-            {{ report.repo_staff.created_at }}
+            {{ report.repo_public.created_at }}
         </div>
     </div>
   </div>
 
-  {# --- Tweet 用連絡（青系） --- #}
-  <div class="report-item staff-tweet">
-    <h6 class="mb-1 fw-bold">🐦 スタッフつぶやき 🙄</h6>
 
-    <div class="report-content mb-1">
-      {{ report.repo_tweet.repo_cont|linebreaksbr }}
+  {# --- スタッフ限定（オレンジ系） --- #}
+  {% if user.is_authenticated %}
+    <div class="report-item pub-only-staff">
+        <h5 class="mb-1 fw-bold">🛠 スタッフ向け連絡</h5>
+
+        <div class="report-content mb-1">
+          {{ report.repo_staff.repo_cont|linebreaksbr }}
+        </div>
+
+        <div class="report-meta d-flex justify-content-between">
+            <div>
+                投稿者：{{ report.repo_staff.repo_pter }}
+            </div>
+            <div>
+                {{ report.repo_staff.created_at }}
+            </div>
+        </div>
     </div>
 
-    <div class="report-meta d-flex justify-content-between">
+    {# --- Tweet 用連絡（青系） --- #}
+    <div class="report-item staff-tweet">
+      <h6 class="mb-1 fw-bold">🐦 スタッフつぶやき 🙄</h6>
+
+      <div class="report-content mb-1">
+        {{ report.repo_tweet.repo_cont|linebreaksbr }}
+      </div>
+
+      <div class="report-meta d-flex justify-content-between">
         <div>
             投稿者：{{ report.repo_tweet.repo_pter }}
         </div>
         <div>
             {{ report.repo_tweet.created_at }}
         </div>
+      </div>
     </div>
-  </div>
-{% endif %}
+  {% endif %}
 </div>
 
 
@@ -176,28 +176,54 @@
 <h2 class="section-title">現在のステージ</h2>
 
 <div class="card mb-4">
-  <div class="team-card shadow-sm">
-    {% if progress_info.progress_team.file_artpic %}
-      <img src="{{ progress_info.progress_team.file_artpic.url }}" alt="{{ progress_info.progress_team.team_name }}">
+  <a href="{% url 'website_app:team_detail_pub' progress_info.progress_team.id %}" class="card-link">
+    <div class="team-card shadow-sm">
+      {% if progress_info.progress_team.file_artpic %}
+        <img src="{{ progress_info.progress_team.file_artpic.url }}" alt="{{ progress_info.progress_team.team_name }}">
 
-      <div class="team-overlay">
-        <h5>{{ progress_info.progress_team.team_name }}</h5>
-      </div>
-    {% else %}
-      <!-- 画像がないときの自動代替 -->
-      <div class="p-4 bg-secondary text-white">
-        <h5 class="m-0">{{ progress_info.progress_team.team_name }}</h5>
-      </div>
-    {% endif %}
-  </div>
+        <div class="team-overlay">
+          <h5>{{ progress_info.progress_team.team_name }}</h5>
+        </div>
+      {% else %}
+        <!-- 画像がないときの自動代替 -->
+        <div class="p-4 bg-secondary text-white">
+          <h5 class="m-0">{{ progress_info.progress_team.team_name }}</h5>
+        </div>
+      {% endif %}
+    </div>
+  </a>
 
   <div class="card-body">
-    <h4 class="card-title {{ progress_info.now_status.co }}">{{ progress_info.now_status.st }}</h4>
+    <h5 class="card-title">{{ progress_info.progress_team.team_name }} について</h5>
+    <p class="card-text"><small>{{ progress_info.progress_team.team_desc }}</small></p>
+    <h5 class="card-title">タイムスケジュール</h5>
+    <h4 class="card-title {{ progress_info.now_status.co }}" style="text-align: center;">{{ progress_info.now_status.st }}</h4>
+    <table class="table table-striped align-middle">
+      <thead>
+        <tr><th></th><th>開始定刻</th><th>終了定刻</th></tr>
+      </thead>
+      <tbody>
+        <tr class="status-now">
+          <th><span class="
+            {% if progress_info.now_status.co == "bg-warning" %}
+              {{ progress_info.now_status.co }}
+            {% endif %}
+             ">リハーサル</span></th>
+          <td>{{  progress_info.start_reha }}</td>
+          <td>{{ progress_info.progress_team.onstage_time }}</td>
+        </tr>
+        <tr>
+          <th><span class="
+            {% if progress_info.now_status.co == "bg-danger" %}
+              {{ progress_info.now_status.co }}
+            {% endif %}
+             ">本番</span></th>
+          <td>{{ progress_info.progress_team.onstage_time }}</td>
+          <td>{{ progress_info.end }}</td>
+        </tr>
+      </tbody>
+    </table>
     <p class="card-text">
-      <p class="mt-2 card-text text-muted"><small>更新時刻：{{ now|date:"Y-m-d H:i:s" }}</small></p>
-      リハ開始：{{ progress_info.start_reha|date:"H:i" }} 〜 
-      本番：{{ progress_info.progress_team.onstage_time|date:"H:i" }} 〜 
-      {{ progress_info.end|date:"H:i" }}<br>
       リハ：{{ progress_info.progress_team.duration_reha }}分 ＋ 本番：{{ progress_info.progress_team.duration_onst }}分 ＝ 
       合計：{{ progress_info.total_minutes }}分
     </p>
@@ -212,6 +238,7 @@
       </div>
     </div>
     <div id="remaining-time" class="text-center mt-1" style="font-weight:600;"></div>
+    <p class="mt-2 card-text text-muted"><small>更新時刻：{{ now|date:"Y-m-d H:i:s" }}</small></p>
   </div>
 </div>
 

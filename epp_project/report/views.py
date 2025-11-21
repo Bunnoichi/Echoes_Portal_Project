@@ -7,7 +7,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMix
 class ReportCreateView(PermissionRequiredMixin, LoginRequiredMixin, View):
   login_url = 'accounts:login'
   redirect_field_name = 'next'
-  permission_required = 'make_report'
+  permission_required = 'report.make_report'
 
   def get(self, request):
       form = ReportForm()
@@ -25,7 +25,7 @@ class ReportCreateView(PermissionRequiredMixin, LoginRequiredMixin, View):
 class ReportListView(PermissionRequiredMixin, LoginRequiredMixin, View):
   login_url = 'accounts:login'
   redirect_field_name = 'next'
-  permission_required = 'view_reports'
+  permission_required = 'report.view_reports'
 
   def get(self, request):
       report_list = Report.objects.order_by('-created_at')

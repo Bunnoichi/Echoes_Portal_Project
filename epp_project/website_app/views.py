@@ -16,17 +16,26 @@ class IndexView(View):
 
     # --- ORMを使ってデータ取得 ---
     # 現在より前のイベント（過去）を時刻が近い順に1件取得
-    onstage_now = (
-        Team.objects.filter(onstage_time__lt=timezone_now)  # 現在より前
-        .order_by('-onstage_time')                  # 時刻が近いもの（降順）
-        .first()                                    # 最初の1件だけ
+    onstage_now = first_or_empty(
+        Team.objects.filter(onstage_time__lt=timezone_now)
+        .order_by('-onstage_time')
     )
-    # 現在より後のイベント（未来）を時刻が近い順に1件取得
-    onstage_pos = (
-        Team.objects.filter(onstage_time__gte=timezone_now) # 現在以降
-        .order_by('onstage_time')                   # 時刻が近いもの（昇順）
-        .first()
+
+
+    # 現在以降の1番目のイベント
+    onstage_pos = first_or_empty(
+        Team.objects.filter(onstage_time__gte=timezone_now)
+        .order_by('onstage_time')
     )
+
+        # 前のイベントが無い場合 → 次のイベントを使う
+    if onstage_now.team_name == "終了":   # empty_team の場合
+        onstage_now = onstage_pos
+        onstage_pos = nth_or_empty(
+            Team.objects.filter(onstage_time__gte=timezone_now)
+            .order_by('onstage_time'),
+            2
+        )
 
 
 
@@ -113,7 +122,7 @@ class IndexView(View):
 class TeamCreateView(PermissionRequiredMixin, LoginRequiredMixin, View):
   login_url = 'accounts:login'
   redirect_field_name = 'next'
-  permission_required = 'initial_registration'
+  permission_required = 'website_app.initial_registration'
 
   def get(self, request):
       form = TeamForm(view_type='initial')
@@ -134,7 +143,7 @@ class TeamListView(View):
 class TeamCheckinView(PermissionRequiredMixin, LoginRequiredMixin, View):
   login_url = 'accounts:login'
   redirect_field_name = 'next'
-  permission_required = 'checkin'
+  permission_required = 'website_app.checkin'
 
   def get(self, request, id):
       wanted_field = ['onstage_time_acc', 'onstage_tien_acc', 'checkin_postime_1', 'checkin_postime_2']
@@ -231,3 +240,13 @@ def empty_team():
         checkin_pretime_1=DEFAULT_DATETIME,
         checkin_pretime_2=DEFAULT_DATETIME,
     )
+
+def first_or_empty(qs):
+    obj = qs.first()
+    return obj if obj is not None else empty_team()
+
+def nth_or_empty(qs, n):
+    try:
+        return qs[n]
+    except IndexError:
+        return empty_team()
