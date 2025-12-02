@@ -7,7 +7,7 @@ class Team(models.Model):
    team_name = models.CharField(max_length=100, verbose_name="団体名")
    team_name_kana = models.CharField(verbose_name='団体名（カナ）')
    team_belong = models.CharField(max_length=100, verbose_name="団体の所属", null=True, blank=True)
-   team_desc = models.CharField(max_length=100, verbose_name="団体説明", null=True, blank=True)
+   team_desc = models.TextField(max_length=1000, verbose_name="団体説明", null=True, blank=True)
    team_ninzu = models.IntegerField(verbose_name='参加人数', null=True, blank=True)
 
    checkin_pretime_1 = models.DateTimeField(verbose_name="受付定刻")
@@ -32,7 +32,7 @@ class Team(models.Model):
    file_stage = models.FileField(upload_to='website_app/stage_files/',null=True, blank=True, verbose_name='ステージファイル')
 
    team_equip = models.TextField(verbose_name='使用機材等',max_length=1000, null=True, blank=True)
-   note = models.TextField(verbose_name='備考',max_length=1000, null=True, blank=True)
+   note = models.TextField(verbose_name='備考',max_length=3000, null=True, blank=True)
    
    created_at = models.DateTimeField(auto_now_add=True, verbose_name="作成日時")
    updated_at = models.DateTimeField(auto_now=True, verbose_name="更新日時")

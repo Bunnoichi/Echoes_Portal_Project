@@ -2,11 +2,8 @@ version: '3.8'
 
 services:
   web:
-    environment:
-      DJANGO_SECRET_KEY: 
-      POSTGRES_DB: epp_db
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres   # ← ここが超重要
+    env_file:
+      - .env
     build: .
     ports:
       - "8000:8000"
